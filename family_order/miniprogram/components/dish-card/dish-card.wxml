@@ -1,0 +1,41 @@
+<!-- dish-card.wxml -->
+<view class="dish-card {{compact ? 'dish-card--compact' : ''}}" bindtap="onCardTap">
+  <!-- 菜品图片 -->
+  <view class="dish-card__image-wrap" wx:if="{{!compact}}">
+    <image class="dish-card__image" src="{{dish.images[0] || '/assets/icons/dish-placeholder.png'}}" mode="aspectFill"></image>
+  </view>
+
+  <!-- 菜品信息 -->
+  <view class="dish-card__info">
+    <text class="dish-card__name text-ellipsis">{{dish.name}}</text>
+
+    <!-- 标签 -->
+    <view class="dish-card__tags flex-row" wx:if="{{showTags && dish.tags.length > 0}}">
+      <view class="tag-base tag--dish" wx:for="{{dish.tags}}" wx:for-item="tag" wx:key="*this">
+        {{tag}}
+      </view>
+    </view>
+
+    <!-- 忌口冲突提示 -->
+    <view class="dish-card__conflicts" wx:if="{{showConflict && conflictLabels.length > 0}}">
+      <view class="conflict-label" wx:for="{{conflictLabels}}" wx:key="text"
+            style="color: {{item.color}};">
+        {{item.text}}
+      </view>
+    </view>
+
+    <!-- 价格 -->
+    <text class="dish-card__price" wx:if="{{showPrice}}">¥{{costYuan}}</text>
+
+    <!-- 难度 & 时间 -->
+    <view class="dish-card__meta flex-row" wx:if="{{!compact}}">
+      <text class="dish-card__difficulty">{{dish.difficulty}}</text>
+      <text class="dish-card__cooktime" wx:if="{{dish.cookTime}}">{{dish.cookTime}}分钟</text>
+    </view>
+  </view>
+
+  <!-- 收藏按钮 -->
+  <view class="dish-card__fav" bindtap="onFavoriteTap" wx:if="{{!compact}}">
+    <text class="fav-icon">{{dish.isFavorite ? '♥' : '♡'}}</text>
+  </view>
+</view>

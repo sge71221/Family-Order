@@ -1,0 +1,8 @@
+<!-- tab-switch.wxml -->
+<view class="tab-switch flex-row">
+  <view class="tab-switch__item {{activeIndex === index ? 'tab-switch__item--active' : ''}}"
+        wx:for="{{tabs}}" wx:key="index"
+        data-index="{{index}}" bindtap="onTabTap">
+    <text>{{item.label || item}}</text>
+  </view>
+</view>

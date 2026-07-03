@@ -1,0 +1,151 @@
+/** global.wxss — 全局通用样式 */
+@import './mixins.wxss';
+
+page {
+  background-color: var(--color-bg);
+  color: var(--color-on-surface);
+  font-size: var(--font-size-body);
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
+  line-height: 1.6;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+/* 输入框默认样式 */
+input {
+  font-size: var(--font-size-body);
+  color: var(--color-on-surface);
+}
+
+.placeholder {
+  color: var(--color-on-surface-light);
+}
+
+/* 滚动区域 */
+.scroll-area {
+  height: 100vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 页面容器 */
+.page-container {
+  min-height: 100vh;
+  padding-bottom: calc(var(--bottom-bar-height) + env(safe-area-inset-bottom));
+  background-color: var(--color-bg);
+}
+
+.page-container--no-bar {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 空状态居中 */
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: var(--spacing-lg);
+}
+
+/* 骨架屏动画 */
+.skeleton-animate {
+  background: linear-gradient(90deg, var(--color-surface-alt) 25%, var(--color-divider) 50%, var(--color-surface-alt) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* 渐入动画 */
+.fade-in {
+  animation: fadeIn var(--transition-normal);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 渐入上滑动画 */
+.slide-up {
+  animation: slideUp var(--transition-normal);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 图片默认样式 */
+.image-placeholder {
+  background-color: var(--color-surface-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 标签通用 */
+.tag-base {
+  display: inline-flex;
+  align-items: center;
+  padding: 2rpx 12rpx;
+  border-radius: var(--radius-tag);
+  font-size: var(--font-size-caption);
+  line-height: 1.4;
+}
+
+/* 底部操作栏 */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--bottom-bar-height);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-bottom-bar);
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm) env(safe-area-inset-bottom);
+  z-index: var(--z-fixed);
+}
+
+/* 分割线 */
+.divider {
+  height: 1rpx;
+  background-color: var(--color-divider);
+  margin: var(--spacing-sm) 0;
+}
+
+/* 段落标题 */
+.section-title {
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-on-surface);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* 徽标 */
+.badge {
+  position: absolute;
+  top: -6rpx;
+  right: -6rpx;
+  min-width: 32rpx;
+  height: 32rpx;
+  line-height: 32rpx;
+  text-align: center;
+  border-radius: 16rpx;
+  font-size: 20rpx;
+  color: #FFFFFF;
+  background-color: var(--color-error);
+  padding: 0 6rpx;
+}
+
+/* 禁用态 */
+.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}

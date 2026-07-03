@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "历史记录",
+  "usingComponents": {
+    "empty-state": "/components/empty-state/empty-state",
+    "skeleton": "/components/skeleton/skeleton"
+  }
+}

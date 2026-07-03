@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "编辑食材",
+  "usingComponents": {
+    "modal-confirm": "/components/modal-confirm/modal-confirm"
+  }
+}

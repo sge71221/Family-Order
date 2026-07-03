@@ -1,0 +1,31 @@
+<!-- order-history.wxml -->
+<view class="order-history-page page-container">
+  <!-- 日期筛选 -->
+  <view class="date-filter flex-row">
+    <picker mode="date" value="{{startDate}}" bindchange="onStartDateChange">
+      <view class="date-filter__btn">{{startDate}}</view>
+    </picker>
+    <text class="date-filter__sep">至</text>
+    <picker mode="date" value="{{endDate}}" bindchange="onEndDateChange">
+      <view class="date-filter__btn">{{endDate}}</view>
+    </picker>
+  </view>
+
+  <skeleton type="list" count="{{5}}" wx:if="{{loading}}"></skeleton>
+
+  <scroll-view class="history-list" scroll-y wx:if="{{!loading}}">
+    <view class="history-item card-surface" wx:for="{{orders}}" wx:key="_id"
+          data-id="{{item._id}}" bindtap="onOrderTap">
+      <view class="history-item__header flex-row flex-between">
+        <text class="history-item__date">{{item.dateFriendly}}</text>
+        <text class="history-item__status">{{item.statusLabel}}</text>
+      </view>
+      <view class="history-item__summary flex-row">
+        <text class="history-item__count">{{item.itemCount}}道菜</text>
+        <text class="history-item__cost text-primary">¥{{item.costYuan}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <empty-state title="暂无历史记录" wx:if="{{!loading && orders.length === 0}}"></empty-state>
+</view>

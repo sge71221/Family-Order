@@ -1,0 +1,222 @@
+classDiagram
+    class Family {
+        +String _id
+        +String familyCode
+        +String name
+        +String adminId
+        +Date createdAt
+        +Date updatedAt
+    }
+
+    class Member {
+        +String _id
+        +String familyId
+        +String openid
+        +String nickname
+        +String role
+        +String identity
+        +String avatarUrl
+        +Boolean bigFontMode
+        +Boolean darkMode
+        +Date createdAt
+    }
+
+    class MemberDietary {
+        +String _id
+        +String memberId
+        +Array allergens
+        +Array dislikes
+        +Array preferences
+        +Date updatedAt
+    }
+
+    class Dish {
+        +String _id
+        +String familyId
+        +String name
+        +String category
+        +Array images
+        +String notes
+        +Array tags
+        +String difficulty
+        +Number cookTime
+        +Boolean isAvailable
+        +Array ingredients
+        +Array steps
+        +String tips
+        +Number avgRating
+        +Number ratingCount
+        +Number orderCount
+        +String createdBy
+        +Date createdAt
+        +Date updatedAt
+    }
+
+    class Tag {
+        +String _id
+        +String familyId
+        +String name
+        +Boolean isCustom
+        +Date createdAt
+    }
+
+    class Ingredient {
+        +String _id
+        +String familyId
+        +String name
+        +String unit
+        +Number pricePerUnit
+        +Number stockQuantity
+        +Date stockUpdatedAt
+        +Date expiryDate
+        +String type
+        +String category
+        +Date createdAt
+    }
+
+    class Order {
+        +String _id
+        +String familyId
+        +String date
+        +String status
+        +Array items
+        +Number totalCost
+        +Array costBreakdown
+        +String createdBy
+        +Date createdAt
+        +Date updatedAt
+    }
+
+    class Rating {
+        +String _id
+        +String orderId
+        +String memberId
+        +String dishId
+        +Number score
+        +String comment
+        +Date createdAt
+    }
+
+    class WeeklyMenu {
+        +String _id
+        +String familyId
+        +String weekStart
+        +Array days
+        +String createdBy
+        +Date createdAt
+    }
+
+    Family "1" --> "*" Member : hasMembers
+    Member "1" --> "1" MemberDietary : hasDietary
+    Family "1" --> "*" Dish : hasDishes
+    Family "1" --> "*" Tag : hasTags
+    Family "1" --> "*" Ingredient : hasIngredients
+    Family "1" --> "*" Order : hasOrders
+    Family "1" --> "*" WeeklyMenu : hasWeeklyMenus
+    Dish "*" --> "*" Tag : taggedWith
+    Dish "*" --> "*" Ingredient : containsIngredients
+    Dish "1" --> "*" Rating : ratedBy
+    Order "*" --> "*" Dish : containsDishes
+    Order "*" --> "*" Member : orderedBy
+    Order "1" --> "*" Rating : hasRatings
+    Member "1" --> "*" Rating : givesRatings
+
+    class AuthService {
+        +wxLogin() Promise
+        +joinFamily(familyCode, nickname, identity, avatarUrl) Promise
+        +getCurrentMember() Member
+        +isAdmin() Boolean
+        +switchAccount(memberId) Promise
+    }
+
+    class FamilyService {
+        +createFamily(name) Promise
+        +joinFamily(familyCode, nickname, identity) Promise
+        +getFamilyInfo() Promise
+        +getMemberList() Promise
+        +removeMember(memberId) Promise
+        +resetFamilyCode() Promise
+        +checkPermission(operation) Boolean
+    }
+
+    class DishService {
+        +getDishList(category, keyword) Promise
+        +getDishDetail(dishId) Promise
+        +createDish(dishData) Promise
+        +updateDish(dishId, dishData) Promise
+        +deleteDish(dishId) Promise
+        +toggleAvailability(dishId, isAvailable) Promise
+        +searchDishes(keyword) Promise
+        +toggleFavorite(dishId) Promise
+        +uploadDishImage(localPath) Promise
+    }
+
+    class OrderService {
+        +addToCart(dishId, quantity, notes) Promise
+        +removeFromCart(dishId) Promise
+        +updateCartQuantity(dishId, quantity) Promise
+        +clearCart() Promise
+        +getCart() CartData
+        +submitOrder(cartData) Promise
+        +getTodayOrder() Promise
+        +watchTodayOrder(onChange) Watcher
+        +getOrderHistory(startDate, endDate, memberId) Promise
+        +markOrderStatus(orderId, status) Promise
+        +modifyOrder(orderId, items) Promise
+    }
+
+    class PurchaseService {
+        +generatePurchaseList(orderId) Promise
+        +togglePurchaseItem(ingredientId, isChecked) Promise
+        +exportPurchaseList(purchaseList) String
+        +copyPurchaseText(text) Promise
+        +sharePurchaseList(purchaseList) void
+    }
+
+    class StatsService {
+        +getMonthlySummary(month) Promise
+        +getDailyTrend(month) Promise
+        +getTopDishes(limit) Promise
+        +getOrderCostDetail(orderId) Promise
+    }
+
+    class DietaryService {
+        +getDietary(memberId) Promise
+        +saveDietary(memberId, dietaryData) Promise
+        +checkDishAllergen(dishId, memberId) Promise
+        +filterByPreference(preferences) Promise
+    }
+
+    class IngredientService {
+        +getIngredientList() Promise
+        +createIngredient(ingredientData) Promise
+        +updateIngredient(id, data) Promise
+        +updateStock(ingredientId, quantity) Promise
+        +deductStockByOrder(orderId) Promise
+        +getExpiryWarnings() Promise
+        +calcDishCost(dishId) Promise
+        +searchIngredients(keyword) Promise
+    }
+
+    class CloudAdapter {
+        +query(collection, conditions, options) Promise
+        +getOne(collection, id) Promise
+        +add(collection, data) Promise
+        +update(collection, id, data) Promise
+        +remove(collection, id) Promise
+        +count(collection, conditions) Promise
+        +watch(collection, conditions, onChange, onError) Watcher
+        +uploadFile(filePath, cloudPath) Promise
+        +deleteFile(fileIDs) Promise
+        +getTempFileURL(fileIDs) Promise
+        +callFunction(name, data) Promise
+    }
+
+    AuthService --> CloudAdapter : uses
+    FamilyService --> CloudAdapter : uses
+    DishService --> CloudAdapter : uses
+    OrderService --> CloudAdapter : uses
+    PurchaseService --> CloudAdapter : uses
+    StatsService --> CloudAdapter : uses
+    DietaryService --> CloudAdapter : uses
+    IngredientService --> CloudAdapter : uses

@@ -1,0 +1,5 @@
+<!-- allergen-badge.wxml -->
+<view class="allergen-badge" style="color: {{color}}; background-color: {{bgColor}};">
+  <text class="allergen-badge__label">{{label}}</text>
+  <text class="allergen-badge__name" wx:if="{{allergen.name}}">{{allergen.name}}</text>
+</view>

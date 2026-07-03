@@ -1,0 +1,85 @@
+<!-- dish-detail.wxml -->
+<view class="dish-detail-page page-container">
+  <skeleton type="detail" count="{{1}}" wx:if="{{loading}}"></skeleton>
+
+  <view class="dish-detail-content" wx:if="{{!loading && dish}}">
+    <!-- 菜品图片 -->
+    <swiper class="dish-detail__images" wx:if="{{dish.images.length > 0}}" indicator-dots circular>
+      <swiper-item wx:for="{{dish.images}}" wx:key="*this">
+        <image class="dish-detail__image" src="{{item}}" mode="aspectFill" bindtap="onImagePreview" data-index="{{index}}"></image>
+      </swiper-item>
+    </swiper>
+
+    <!-- 基本信息 -->
+    <view class="dish-detail__header card-surface">
+      <text class="dish-detail__name">{{dish.name}}</text>
+      <view class="dish-detail__meta flex-row">
+        <text class="dish-detail__category">{{dish.category}}</text>
+        <text class="dish-detail__difficulty">{{dish.difficulty}}</text>
+        <text class="dish-detail__time" wx:if="{{dish.cookTime}}">{{dish.cookTime}}分钟</text>
+      </view>
+      <tag-pill tags="{{dish.tags}}" type="normal"></tag-pill>
+      <text class="dish-detail__cost" wx:if="{{costYuan}}">预估成本: ¥{{costYuan}}</text>
+    </view>
+
+    <!-- 忌口提示 -->
+    <view class="dish-detail__conflict card-surface" wx:if="{{conflictResult && conflictResult.hasConflict}}">
+      <text class="section-title text-error">⚠ 忌口提醒</text>
+      <view class="conflict-list" wx:if="{{conflictResult.allergenWarnings.length > 0}}">
+        <allergen-badge wx:for="{{conflictResult.allergenWarnings}}" wx:key="ingredientName"
+                        allergen="{{item}}" severity="{{item.severity}}"></allergen-badge>
+      </view>
+      <view class="conflict-list" wx:if="{{conflictResult.dislikeWarnings.length > 0}}">
+        <text class="dislike-text" wx:for="{{conflictResult.dislikeWarnings}}" wx:key="ingredientName">
+          含{{item.dislikeName}}
+        </text>
+      </view>
+    </view>
+
+    <!-- 食材列表 -->
+    <view class="dish-detail__ingredients card-surface" wx:if="{{ingredientsDisplay.length > 0}}">
+      <text class="section-title">食材</text>
+      <view class="ingredient-row" wx:for="{{ingredientsDisplay}}" wx:key="name">
+        <text class="ingredient-name">{{item.name}}</text>
+        <text class="ingredient-qty">{{item.display}}</text>
+      </view>
+    </view>
+
+    <!-- 做法步骤 -->
+    <view class="dish-detail__steps card-surface" wx:if="{{stepsDisplay.length > 0}}">
+      <text class="section-title">做法</text>
+      <view class="step-item" wx:for="{{stepsDisplay}}" wx:key="order">
+        <text class="step-number">{{item.order}}</text>
+        <text class="step-text">{{item.text}}</text>
+      </view>
+    </view>
+
+    <!-- 小贴士 -->
+    <view class="dish-detail__tips card-surface" wx:if="{{dish.tips}}">
+      <text class="section-title">小贴士</text>
+      <text class="tips-text">{{dish.tips}}</text>
+    </view>
+
+    <!-- 备注 -->
+    <view class="dish-notes" wx:if="{{dish.notes}}">
+      <text class="notes-text">{{dish.notes}}</text>
+    </view>
+
+    <!-- 操作区 -->
+    <view class="dish-detail__actions bottom-bar">
+      <view class="action-left flex-row">
+        <quantity-stepper value="{{quantity}}" min="1" max="10"
+                          bind:change="onQuantityChange"></quantity-stepper>
+        <input class="notes-input" placeholder="备注" value="{{notes}}" bindinput="onNotesInput" maxlength="30" />
+      </view>
+      <button class="btn-primary" bindtap="onAddToCart">加入购物车</button>
+    </view>
+
+    <!-- 编辑按钮 -->
+    <view class="dish-detail__edit" wx:if="{{isAdmin}}" bindtap="onEditDish">
+      <text class="edit-text">编辑菜品</text>
+    </view>
+  </view>
+
+  <empty-state title="菜品不存在" wx:if="{{!loading && !dish}}"></empty-state>
+</view>

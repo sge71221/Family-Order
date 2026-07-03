@@ -1,0 +1,57 @@
+sequenceDiagram
+    participant User as 用户
+    participant OrderPage as 点餐页
+    participant OrderS as OrderService
+    participant DietaryS as DietaryService
+    participant CartPage as 购物车详情页
+    participant CloudFunc as 云函数submit-order
+    participant PurchaseS as PurchaseService
+    participant CloudDB as 云数据库
+    participant Cache as LocalCache
+    participant EventBus as EventBus
+
+    User->>OrderPage: 点击菜品"+"按钮
+    OrderPage->>DietaryS: checkDishAllergen(dishId, memberId)
+    DietaryS-->>OrderPage: 返回 {level: "none"} 或 {level: "severe", allergens}
+    alt 过敏拦截
+        OrderPage->>User: 弹窗警告"含过敏食材"
+        User->>OrderPage: 确认添加（二次确认）
+    end
+    OrderPage->>OrderS: addToCart(dishId, 1, "")
+    OrderS->>Cache: 写入 cache_cart_{memberId}
+    OrderS-->>OrderPage: 返回 CartItem
+    OrderPage->>EventBus: publish("cartUpdated")
+    OrderPage->>User: 更新购物车摘要条
+
+    User->>CartPage: 点击"查看购物车"
+    CartPage->>OrderS: getCart()
+    OrderS-->>CartPage: 返回购物车数据
+    User->>CartPage: 填写备注 → 点击"提交订单"
+    CartPage->>OrderS: submitOrder(cartData)
+
+    alt 联网状态
+        OrderS->>CloudFunc: callFunction("submit-order", {items, familyId, date})
+        CloudFunc->>CloudDB: 写入 Order 集合
+        CloudFunc->>CloudDB: 计算 costBreakdown + totalCost
+        CloudFunc->>CloudDB: 更新 Dish.orderCount
+        CloudFunc-->>OrderS: 返回 Order
+        OrderS->>Cache: 写入 cache_today_order
+        OrderS->>Cache: 清空 cache_cart_{memberId}
+    else 离线状态
+        OrderS->>Cache: 写入 cache_pending_orders（离线队列）
+        OrderS->>Cache: 清空 cache_cart_{memberId}
+        OrderS->>User: 提示"离线暂存，联网后自动提交"
+    end
+
+    OrderS->>EventBus: publish("orderSubmitted")
+    OrderS-->>CartPage: 返回订单数据
+    CartPage->>User: 跳转今日汇总页
+
+    User->>OrderPage: 在汇总页点击"生成采购清单"
+    OrderPage->>PurchaseS: generatePurchaseList(orderId)
+    PurchaseS->>CloudFunc: callFunction("generate-purchase-list", {orderId})
+    CloudFunc->>CloudDB: 查询 Order.items + Dish.ingredients
+    CloudFunc->>CloudDB: 合并同类食材 + 查询 Ingredient.stockQuantity
+    CloudFunc-->>PurchaseS: 返回 PurchaseList
+    PurchaseS-->>OrderPage: 返回采购清单数据
+    OrderPage->>User: 渲染采购页

@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "菜品详情",
+  "usingComponents": {
+    "quantity-stepper": "/components/quantity-stepper/quantity-stepper",
+    "tag-pill": "/components/tag-pill/tag-pill",
+    "allergen-badge": "/components/allergen-badge/allergen-badge",
+    "modal-confirm": "/components/modal-confirm/modal-confirm",
+    "empty-state": "/components/empty-state/empty-state",
+    "skeleton": "/components/skeleton/skeleton"
+  }
+}

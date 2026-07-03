@@ -1,0 +1,26 @@
+<!-- search-bar.wxml -->
+<view class="search-bar">
+  <view class="search-bar__input-wrap {{isFocused ? 'search-bar__input-wrap--focus' : ''}}">
+    <text class="search-bar__icon">🔍</text>
+    <input class="search-bar__input" placeholder="{{placeholder}}" value="{{value}}"
+           bindinput="onInput" bindfocus="onFocus" bindblur="onBlur" confirm-type="search" bindconfirm="onSearchTap" />
+    <view class="search-bar__clear" wx:if="{{value}}" bindtap="onClearTap">
+      <text>×</text>
+    </view>
+    <button class="search-bar__btn" bindtap="onSearchTap">搜索</button>
+  </view>
+
+  <!-- 搜索历史 -->
+  <view class="search-history" wx:if="{{showHistoryPanel}}">
+    <view class="search-history__header flex-row flex-between">
+      <text class="search-history__title">搜索历史</text>
+      <text class="search-history__clear" bindtap="onClearHistoryTap">清除</text>
+    </view>
+    <view class="search-history__list flex-row flex-wrap">
+      <view class="search-history__item" wx:for="{{historyList}}" wx:key="*this"
+            data-keyword="{{item}}" bindtap="onHistoryTap">
+        {{item}}
+      </view>
+    </view>
+  </view>
+</view>

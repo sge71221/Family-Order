@@ -1,0 +1,56 @@
+/** profile.wxss */
+@import '../../styles/mixins.wxss';
+
+.profile-page {
+  padding: var(--spacing-sm);
+}
+
+.profile-header {
+  margin-bottom: var(--spacing-sm);
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.profile-header__info {
+  gap: 4rpx;
+}
+
+.profile-header__name {
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-bold);
+}
+
+.profile-header__identity {
+  font-size: var(--font-size-caption);
+  color: var(--color-on-surface-muted);
+}
+
+.profile-header__role {
+  font-size: var(--font-size-caption);
+  color: var(--color-primary);
+}
+
+.profile-section {
+  margin-bottom: var(--spacing-sm);
+}
+
+.profile-row {
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1rpx solid var(--color-divider);
+  align-items: center;
+}
+
+.profile-row__label {
+  font-size: var(--font-size-body);
+  color: var(--color-on-surface);
+}
+
+.profile-row__value {
+  font-size: var(--font-size-body);
+  color: var(--color-on-surface-muted);
+}
+
+.logout-btn {
+  margin-top: var(--spacing-md);
+  width: 100%;
+}

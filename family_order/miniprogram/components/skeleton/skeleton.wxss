@@ -1,0 +1,48 @@
+/** skeleton.wxss */
+.skeleton-container {
+  padding: var(--spacing-sm);
+}
+
+.skeleton-item {
+  display: flex;
+  flex-direction: row;
+  padding: var(--spacing-xs);
+  margin-bottom: var(--spacing-xs);
+}
+
+.skeleton-item--list {
+  padding: var(--spacing-xs) 0;
+}
+
+.skeleton-avatar {
+  width: var(--image-size-thumb);
+  height: var(--image-size-thumb);
+  border-radius: var(--radius-image);
+  margin-right: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.skeleton-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.skeleton-line {
+  height: 16rpx;
+  border-radius: 8rpx;
+}
+
+.skeleton-line--title {
+  width: 60%;
+  height: 24rpx;
+}
+
+.skeleton-line--body {
+  width: 80%;
+}
+
+.skeleton-line--short {
+  width: 40%;
+}

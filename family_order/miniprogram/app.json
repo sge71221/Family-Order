@@ -1,0 +1,73 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/menu/menu",
+    "pages/dish-detail/dish-detail",
+    "pages/dish-edit/dish-edit",
+    "pages/order/order",
+    "pages/cart/cart",
+    "pages/order-summary/order-summary",
+    "pages/order-history/order-history",
+    "pages/purchase/purchase",
+    "pages/inventory/inventory",
+    "pages/ingredient-edit/ingredient-edit",
+    "pages/profile/profile",
+    "pages/family-manage/family-manage",
+    "pages/dietary/dietary",
+    "pages/stats/stats"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#F4A261",
+    "navigationBarTitleText": "家庭点菜",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F8F3EC",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#6B5B47",
+    "selectedColor": "#F4A261",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/menu/menu",
+        "text": "菜单",
+        "iconPath": "assets/icons/menu.png",
+        "selectedIconPath": "assets/icons/menu-active.png"
+      },
+      {
+        "pagePath": "pages/order/order",
+        "text": "点餐",
+        "iconPath": "assets/icons/order.png",
+        "selectedIconPath": "assets/icons/order-active.png"
+      },
+      {
+        "pagePath": "pages/purchase/purchase",
+        "text": "采购",
+        "iconPath": "assets/icons/purchase.png",
+        "selectedIconPath": "assets/icons/purchase-active.png"
+      },
+      {
+        "pagePath": "pages/stats/stats",
+        "text": "统计",
+        "iconPath": "assets/icons/stats.png",
+        "selectedIconPath": "assets/icons/stats-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "assets/icons/profile.png",
+        "selectedIconPath": "assets/icons/profile-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "cloud": true,
+  "lazyCodeLoading": "requiredComponents",
+  "usingComponents": {},
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于展示附近菜市场信息"
+    }
+  }
+}

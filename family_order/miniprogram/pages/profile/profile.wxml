@@ -1,0 +1,45 @@
+<!-- profile.wxml -->
+<view class="profile-page page-container">
+  <!-- 用户信息 -->
+  <view class="profile-header card-surface flex-row">
+    <member-avatar avatarUrl="{{avatarUrl}}" nickname="{{nickname}}" identity="{{identity}}"
+                   showIdentity="{{true}}" size="large"></member-avatar>
+    <view class="profile-header__info flex-1">
+      <text class="profile-header__name">{{nickname}}</text>
+      <text class="profile-header__identity">{{identityLabel}}</text>
+      <text class="profile-header__role" wx:if="{{isAdmin}}">管理员</text>
+    </view>
+  </view>
+
+  <!-- 家庭信息 -->
+  <view class="profile-section card-surface">
+    <text class="section-title">家庭信息</text>
+    <view class="profile-row flex-row flex-between" bindtap="onFamilyManage">
+      <text class="profile-row__label">家庭名</text>
+      <text class="profile-row__value">{{familyName || '未加入'}}</text>
+    </view>
+    <view class="profile-row flex-row flex-between" wx:if="{{familyCode}}">
+      <text class="profile-row__label">家庭码</text>
+      <text class="profile-row__value text-primary">{{familyCode}}</text>
+    </view>
+  </view>
+
+  <!-- 设置 -->
+  <view class="profile-section card-surface">
+    <text class="section-title">设置</text>
+    <view class="profile-row flex-row flex-between" bindtap="onToggleBigFont">
+      <text class="profile-row__label">大字模式</text>
+      <switch checked="{{bigFontMode}}" color="#F4A261"></switch>
+    </view>
+    <view class="profile-row flex-row flex-between" bindtap="onToggleDark">
+      <text class="profile-row__label">深色模式</text>
+      <switch checked="{{darkMode}}" color="#F4A261"></switch>
+    </view>
+    <view class="profile-row" bindtap="onDietary">
+      <text class="profile-row__label">忌口设置</text>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <button class="btn-outline logout-btn" bindtap="onLogout">退出登录</button>
+</view>

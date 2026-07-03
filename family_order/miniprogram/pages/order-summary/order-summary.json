@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "今日点餐",
+  "usingComponents": {
+    "member-avatar": "/components/member-avatar/member-avatar",
+    "modal-confirm": "/components/modal-confirm/modal-confirm",
+    "empty-state": "/components/empty-state/empty-state",
+    "skeleton": "/components/skeleton/skeleton"
+  }
+}

@@ -1,0 +1,14 @@
+/** app.wxss — 全局样式，引入主题变量与通用样式 */
+@import './styles/variables.wxss';
+@import './styles/theme-light.wxss';
+@import './styles/theme-dark.wxss';
+@import './styles/global.wxss';
+
+/* 大字模式覆盖 */
+[data-font-mode="big"] {
+  --font-size-title: 26px;
+  --font-size-card-title: 19px;
+  --font-size-body: 18px;
+  --font-size-caption: 14px;
+  --font-size-tab: 12px;
+}

@@ -1,0 +1,56 @@
+/** order-history.wxss */
+@import '../../styles/mixins.wxss';
+
+.order-history-page {
+  padding: var(--spacing-sm);
+}
+
+.date-filter {
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+  align-items: center;
+}
+
+.date-filter__btn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-input);
+  font-size: var(--font-size-caption);
+  color: var(--color-on-surface);
+}
+
+.date-filter__sep {
+  font-size: var(--font-size-caption);
+  color: var(--color-on-surface-muted);
+}
+
+.history-list {
+  height: calc(100vh - 80px);
+}
+
+.history-item {
+  margin-bottom: var(--spacing-xs);
+}
+
+.history-item__header {
+  margin-bottom: 4rpx;
+}
+
+.history-item__date {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+}
+
+.history-item__status {
+  font-size: var(--font-size-caption);
+  color: var(--color-primary);
+}
+
+.history-item__summary {
+  gap: var(--spacing-xs);
+}
+
+.history-item__count {
+  font-size: var(--font-size-caption);
+  color: var(--color-on-surface-muted);
+}

@@ -1,0 +1,43 @@
+<!-- inventory.wxml -->
+<view class="inventory-page page-container">
+  <search-bar placeholder="搜索食材..." bind:search="onSearch"></search-bar>
+
+  <!-- 分类 -->
+  <scroll-view class="category-filter" scroll-x>
+    <view class="category-filter__list flex-row">
+      <view class="category-filter__item {{activeCategory === item.id ? 'category-filter__item--active' : ''}}"
+            wx:for="{{categories}}" wx:key="id"
+            data-id="{{item.id}}" bindtap="onCategoryTap">
+        {{item.name}}
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 过期预警 -->
+  <view class="expiry-warning card-surface" wx:if="{{expiryWarnings.length > 0}}">
+    <text class="section-title text-error">⚠ 过期预警</text>
+    <view class="warning-item" wx:for="{{expiryWarnings}}" wx:key="_id">
+      <text>{{item.name}} {{item.daysLeft <= 0 ? '已过期' : item.daysLeft + '天后过期'}}</text>
+    </view>
+  </view>
+
+  <skeleton type="list" count="{{5}}" wx:if="{{loading}}"></skeleton>
+
+  <!-- 食材列表 -->
+  <view class="inventory-list" wx:if="{{!loading}}">
+    <view class="inventory-category" wx:for="{{categorizedIngredients}}" wx:for-index="catName" wx:key="catName">
+      <text class="inventory-category__title">{{catName}}</text>
+      <ingredient-item wx:for="{{item}}" wx:for-item="ing" wx:key="_id"
+                       ingredient="{{ing}}" showPrice="{{true}}" showStock="{{true}}" showExpiry="{{true}}" editable="{{true}}"
+                       bind:edit="onEditTap"></ingredient-item>
+    </view>
+  </view>
+
+  <empty-state title="暂无食材" description="添加食材开始管理库存"
+               actionText="添加食材" wx:if="{{!loading && ingredients.length === 0}}"
+               bind:action="onAddIngredient"></empty-state>
+
+  <view class="add-btn-wrap" wx:if="{{!loading}}">
+    <button class="btn-primary" bindtap="onAddIngredient">添加食材</button>
+  </view>
+</view>

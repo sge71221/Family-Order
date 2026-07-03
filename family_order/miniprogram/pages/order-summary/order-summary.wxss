@@ -1,0 +1,67 @@
+/** order-summary.wxss */
+@import '../../styles/mixins.wxss';
+
+.order-summary-page {
+  padding: var(--spacing-sm);
+}
+
+.summary-header {
+  text-align: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.summary-header__status {
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  display: block;
+}
+
+.summary-header__total {
+  font-size: var(--font-size-number);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-on-surface);
+  display: block;
+}
+
+.member-group {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+  margin-bottom: var(--spacing-xs);
+  padding: var(--spacing-sm);
+}
+
+.member-group__header {
+  margin-bottom: var(--spacing-xs);
+}
+
+.member-group__name {
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-medium);
+}
+
+.order-item {
+  padding: 4rpx 0;
+  gap: var(--spacing-xs);
+}
+
+.order-item__name {
+  font-size: var(--font-size-body);
+  flex: 1;
+}
+
+.order-item__qty {
+  font-size: var(--font-size-body);
+  color: var(--color-on-surface-muted);
+}
+
+.summary-actions {
+  padding: var(--spacing-md) var(--spacing-sm);
+}
+
+.view-history-link {
+  font-size: var(--font-size-body);
+  text-align: center;
+  display: block;
+  padding: var(--spacing-md);
+}

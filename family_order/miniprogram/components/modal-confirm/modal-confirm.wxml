@@ -1,0 +1,11 @@
+<!-- modal-confirm.wxml -->
+<view class="modal-mask" wx:if="{{visible}}" bindtap="onMaskTap" style="z-index: var(--z-modal-backdrop);">
+  <view class="modal-dialog" catchtap="">
+    <text class="modal-title">{{title}}</text>
+    <text class="modal-content">{{content}}</text>
+    <view class="modal-actions flex-row flex-between">
+      <button class="modal-btn modal-btn--cancel" bindtap="onCancelTap">{{cancelText}}</button>
+      <button class="modal-btn modal-btn--confirm" style="color: {{confirmColor}};" bindtap="onConfirmTap">{{confirmText}}</button>
+    </view>
+  </view>
+</view>

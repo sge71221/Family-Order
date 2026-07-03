@@ -1,0 +1,42 @@
+<!-- order-summary.wxml -->
+<view class="order-summary-page page-container">
+  <skeleton type="detail" count="{{1}}" wx:if="{{loading}}"></skeleton>
+
+  <view wx:if="{{!loading && order}}">
+    <!-- 状态头部 -->
+    <view class="summary-header card-surface">
+      <text class="summary-header__status">{{statusLabel}}</text>
+      <text class="summary-header__total">总计: ¥{{totalCostYuan}}</text>
+    </view>
+
+    <!-- 按成员分组 -->
+    <view class="member-group" wx:for="{{itemsByMember}}" wx:key="memberId" wx:for-item="group">
+      <view class="member-group__header flex-row">
+        <text class="member-group__name">{{group.memberName}}</text>
+        <text class="member-group__subtotal text-primary">¥{{group.subtotalYuan}}</text>
+      </view>
+      <view class="member-group__items">
+        <view class="order-item flex-row flex-between" wx:for="{{group.items}}" wx:key="dishId">
+          <text class="order-item__name">{{item.dishName}}</text>
+          <text class="order-item__qty">×{{item.quantity}}</text>
+          <text class="order-item__notes text-muted" wx:if="{{item.notes}}">{{item.notes}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 状态操作按钮 -->
+    <view class="summary-actions" wx:if="{{order.status === 'ordering'}}">
+      <button class="btn-primary" bindtap="onMarkCooking">开始烹饪</button>
+    </view>
+    <view class="summary-actions" wx:if="{{order.status === 'cooking'}}">
+      <button class="btn-primary" bindtap="onMarkDone">烹饪完成</button>
+    </view>
+
+    <!-- 查看历史 -->
+    <text class="view-history-link text-primary" bindtap="onViewHistory">查看历史记录</text>
+  </view>
+
+  <empty-state title="今日暂无点餐" description="快去点几道菜吧"
+               actionText="去点餐" wx:if="{{!loading && !order}}"
+               bind:action="onGoOrder"></empty-state>
+</view>

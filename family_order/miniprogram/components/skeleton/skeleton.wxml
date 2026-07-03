@@ -1,0 +1,12 @@
+<!-- skeleton.wxml -->
+<view class="skeleton-container">
+  <view class="skeleton-item {{type === 'list' ? 'skeleton-item--list' : ''}} {{type === 'detail' ? 'skeleton-item--detail' : ''}}"
+        wx:for="{{countArr}}" wx:key="index">
+    <view class="skeleton-animate skeleton-avatar" wx:if="{{type !== 'list'}}"></view>
+    <view class="skeleton-content">
+      <view class="skeleton-animate skeleton-line skeleton-line--title"></view>
+      <view class="skeleton-animate skeleton-line skeleton-line--body"></view>
+      <view class="skeleton-animate skeleton-line skeleton-line--short" wx:if="{{type !== 'list'}}"></view>
+    </view>
+  </view>
+</view>

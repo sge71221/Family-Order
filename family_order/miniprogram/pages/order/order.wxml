@@ -1,0 +1,20 @@
+<!-- order.wxml -->
+<view class="order-page page-container">
+  <search-bar placeholder="搜索菜品..." value="{{keyword}}" bind:search="onSearch"></search-bar>
+  <category-tab categories="{{categories}}" activeId="{{activeCategory}}" bind:change="onCategoryChange"></category-tab>
+
+  <skeleton type="card" count="{{4}}" wx:if="{{loading}}"></skeleton>
+
+  <scroll-view class="order-list" scroll-y wx:if="{{!loading}}">
+    <view wx:for="{{filteredDishes}}" wx:key="_id">
+      <dish-card dish="{{item}}" compact="{{true}}" showConflict="{{true}}"
+                 dietaryConflict="{{dietaryConflictMap[item._id]}}"
+                 bind:cardtap="onAddToCart"></dish-card>
+    </view>
+  </scroll-view>
+
+  <empty-state title="暂无菜品" wx:if="{{!loading && filteredDishes.length === 0}}"></empty-state>
+
+  <cart-bar itemCount="{{cartCount}}" totalCostFen="{{cartTotalFen}}" buttonText="提交订单"
+            bind:submit="onSubmitOrder" bind:viewcart="onViewCart"></cart-bar>
+</view>

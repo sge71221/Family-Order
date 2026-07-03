@@ -1,0 +1,5 @@
+<!-- bar-chart.wxml -->
+<view class="bar-chart">
+  <canvas class="bar-chart__canvas" canvas-id="barChartCanvas"
+          style="width: 100%; height: {{height}}px;"></canvas>
+</view>

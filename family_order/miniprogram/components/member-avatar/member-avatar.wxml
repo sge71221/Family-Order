@@ -1,0 +1,7 @@
+<!-- member-avatar.wxml -->
+<view class="member-avatar flex-col flex-center">
+  <image class="member-avatar__img" src="{{avatarUrl || '/assets/avatars/default.png'}}" mode="aspectFill"
+         style="width: {{sizePx}}; height: {{sizePx}}; border-radius: {{sizePx}};"></image>
+  <text class="member-avatar__name" wx:if="{{showName}}">{{nickname}}</text>
+  <text class="member-avatar__identity" wx:if="{{showIdentity && identityLabel}}">{{identityLabel}}</text>
+</view>

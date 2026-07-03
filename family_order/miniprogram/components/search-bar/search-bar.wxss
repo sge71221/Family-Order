@@ -1,0 +1,90 @@
+/** search-bar.wxss */
+@import '../../styles/mixins.wxss';
+
+.search-bar {
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+.search-bar__input-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-button);
+  padding: 0 var(--spacing-sm);
+  border: 2rpx solid var(--color-divider);
+  transition: border-color var(--transition-fast);
+}
+
+.search-bar__input-wrap--focus {
+  border-color: var(--color-primary);
+}
+
+.search-bar__icon {
+  font-size: 16px;
+  margin-right: var(--spacing-xs);
+}
+
+.search-bar__input {
+  flex: 1;
+  height: var(--button-min-height);
+  font-size: var(--font-size-body);
+  color: var(--color-on-surface);
+}
+
+.search-bar__clear {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--color-on-surface-muted);
+}
+
+.search-bar__btn {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  padding: 0 var(--spacing-sm);
+  border-radius: var(--radius-button);
+  line-height: var(--button-min-height);
+  height: var(--button-min-height);
+  border: none;
+  margin-left: var(--spacing-xs);
+}
+
+.search-history {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
+}
+
+.search-history__header {
+  margin-bottom: var(--spacing-xs);
+}
+
+.search-history__title {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-on-surface);
+}
+
+.search-history__clear {
+  font-size: var(--font-size-caption);
+  color: var(--color-on-surface-muted);
+}
+
+.search-history__list {
+  gap: 8rpx;
+}
+
+.search-history__item {
+  padding: 4rpx 12rpx;
+  background-color: var(--color-surface-alt);
+  border-radius: var(--radius-tag);
+  font-size: var(--font-size-caption);
+  color: var(--color-on-surface-muted);
+}

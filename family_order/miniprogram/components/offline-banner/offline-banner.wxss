@@ -1,0 +1,19 @@
+/** offline-banner.wxss */
+.offline-banner {
+  background-color: var(--color-warning-bg);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 0;
+}
+
+.offline-banner__text {
+  font-size: var(--font-size-caption);
+  color: var(--color-warning);
+  flex: 1;
+}
+
+.offline-banner__retry {
+  font-size: var(--font-size-caption);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+  padding-left: var(--spacing-sm);
+}

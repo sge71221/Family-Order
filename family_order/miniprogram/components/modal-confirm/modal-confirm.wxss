@@ -1,0 +1,61 @@
+/** modal-confirm.wxss */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-mask-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-dialog {
+  width: 80%;
+  max-width: 320px;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-modal);
+}
+
+.modal-title {
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-on-surface);
+  text-align: center;
+  display: block;
+  margin-bottom: var(--spacing-xs);
+}
+
+.modal-content {
+  font-size: var(--font-size-body);
+  color: var(--color-on-surface-muted);
+  text-align: center;
+  display: block;
+  margin-bottom: var(--spacing-md);
+}
+
+.modal-actions {
+  gap: var(--spacing-sm);
+}
+
+.modal-btn {
+  flex: 1;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  border: none;
+  background-color: transparent;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-button);
+  line-height: var(--button-min-height);
+}
+
+.modal-btn--cancel {
+  color: var(--color-on-surface-muted);
+}
+
+.modal-btn--confirm {
+  font-weight: var(--font-weight-bold);
+}

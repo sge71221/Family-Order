@@ -1,0 +1,23 @@
+/** theme-dark.wxss — 深色主题样式覆盖 */
+page[data-theme="dark"] {
+  --color-bg: #1A1410;
+  --color-surface: #2A2018;
+  --color-surface-alt: #342A20;
+  --color-on-surface: #F5EFE8;
+  --color-on-surface-muted: #A89A8C;
+  --color-on-surface-light: #6B5B47;
+  --color-divider: #3A3028;
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.3);
+  --shadow-bottom-bar: 0 -2px 12px rgba(0, 0, 0, 0.4);
+  --shadow-modal: 0 8px 40px rgba(0, 0, 0, 0.5);
+  --color-loading-bg: rgba(26, 20, 16, 0.9);
+  --color-mask-bg: rgba(0, 0, 0, 0.6);
+
+  --color-primary-bg: rgba(244, 162, 97, 0.2);
+  --color-success-bg: rgba(76, 175, 80, 0.2);
+  --color-warning-bg: rgba(255, 193, 7, 0.2);
+  --color-error-bg: rgba(229, 57, 53, 0.2);
+  --color-info-bg: rgba(33, 150, 243, 0.2);
+  --color-allergen-severe-bg: rgba(229, 57, 53, 0.25);
+  --color-allergen-mild-bg: rgba(255, 193, 7, 0.25);
+}

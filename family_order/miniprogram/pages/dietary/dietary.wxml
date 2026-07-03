@@ -1,0 +1,75 @@
+<!-- dietary.wxml -->
+<view class="dietary-page page-container--no-bar">
+  <scroll-view class="dietary-scroll" scroll-y>
+    <!-- 过敏源 -->
+    <view class="dietary-section card-surface">
+      <text class="section-title">过敏源</text>
+
+      <!-- 已添加的过敏源 -->
+      <view class="allergen-list" wx:if="{{allergens.length > 0}}">
+        <view class="allergen-row flex-row flex-between" wx:for="{{allergens}}" wx:key="name">
+          <text class="allergen-name">{{item.name}}</text>
+          <view class="severity-select flex-row">
+            <text class="severity-btn {{item.severity === s.id ? 'severity-btn--active' : ''}}"
+                  wx:for="{{severityOptions}}" wx:for-item="s" wx:key="id"
+                  data-index="{{index}}" data-severity="{{s.id}}" bindtap="onAllergenSeverityTap">
+              {{s.name}}
+            </text>
+          </view>
+          <text class="remove-btn" data-index="{{index}}" catchtap="onRemoveAllergen">×</text>
+        </view>
+      </view>
+
+      <!-- 常见过敏源快速添加 -->
+      <text class="sub-title">快速添加</text>
+      <view class="quick-allergens flex-row flex-wrap">
+        <view class="quick-allergen-item" wx:for="{{commonAllergens}}" wx:key="id"
+              data-allergen="{{item}}" bindtap="onAddAllergen">
+          {{item.name}}
+        </view>
+      </view>
+
+      <!-- 自定义添加 -->
+      <view class="custom-add flex-row">
+        <input class="custom-add__input" placeholder="自定义过敏食材" value="{{newAllergenSearch}}" bindinput="onAllergenSearch" />
+        <text class="custom-add__btn text-primary" bindtap="onAddCustomAllergen">添加</text>
+      </view>
+    </view>
+
+    <!-- 不喜欢食材 -->
+    <view class="dietary-section card-surface">
+      <text class="section-title">不喜欢</text>
+
+      <view class="dislike-list" wx:if="{{dislikes.length > 0}}">
+        <view class="dislike-row flex-row flex-between" wx:for="{{dislikes}}" wx:key="name">
+          <text>{{item.name}}</text>
+          <view class="level-select flex-row">
+            <text class="level-btn {{item.level === l.id ? 'level-btn--active' : ''}}"
+                  wx:for="{{dislikeLevelOptions}}" wx:for-item="l" wx:key="id"
+                  data-index="{{index}}" data-level="{{l.id}}" bindtap="onDislikeLevelTap">
+              {{l.name}}
+            </text>
+          </view>
+          <text class="remove-btn" data-index="{{index}}" catchtap="onRemoveDislike">×</text>
+        </view>
+      </view>
+
+      <input class="custom-add__input" placeholder="输入不喜欢食材" bindinput="onDislikeSearchInput" />
+    </view>
+
+    <!-- 饮食偏好 -->
+    <view class="dietary-section card-surface">
+      <text class="section-title">饮食偏好</text>
+      <view class="preference-list flex-row flex-wrap">
+        <view class="preference-item {{preferences.indexOf(item.id) >= 0 ? 'preference-item--active' : ''}}"
+              wx:for="{{preferenceOptions}}" wx:key="id"
+              data-id="{{item.id}}" bindtap="onPreferenceTap">
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 保存 -->
+    <button class="btn-primary save-btn" bindtap="onSave">保存设置</button>
+  </scroll-view>
+</view>

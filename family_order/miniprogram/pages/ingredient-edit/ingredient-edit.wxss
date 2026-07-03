@@ -1,0 +1,47 @@
+/** ingredient-edit.wxss */
+@import '../../styles/mixins.wxss';
+@import '../login/login.wxss';
+
+.ingredient-edit-page {
+  background-color: var(--color-bg);
+}
+
+.edit-scroll {
+  height: 100vh;
+  padding: var(--spacing-sm) env(safe-area-inset-bottom);
+}
+
+.unit-list, .category-list {
+  gap: var(--spacing-xs);
+}
+
+.unit-item, .type-item, .category-item {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--color-surface);
+  border: 2rpx solid var(--color-divider);
+  border-radius: var(--radius-tag);
+  font-size: var(--font-size-caption);
+  color: var(--color-on-surface);
+}
+
+.unit-item--active, .type-item--active, .category-item--active {
+  background-color: var(--color-primary-bg);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.picker-input {
+  display: flex;
+  align-items: center;
+  color: var(--color-on-surface);
+}
+
+.save-btn {
+  width: 100%;
+  margin-top: var(--spacing-md);
+}
+
+.delete-btn {
+  width: 100%;
+  margin-top: var(--spacing-xs);
+}

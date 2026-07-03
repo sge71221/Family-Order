@@ -1,0 +1,116 @@
+<!-- login.wxml — 登录页面模板 -->
+<view class="login-page page-container--no-bar">
+
+  <!-- 欢迎步骤 -->
+  <view class="welcome-step" wx:if="{{step === 'welcome'}}">
+    <view class="welcome-hero">
+      <image class="welcome-logo" src="/assets/icons/logo.png" mode="aspectFit"></image>
+      <text class="welcome-title">家庭点菜</text>
+      <text class="welcome-subtitle">让每一餐都是家的味道</text>
+    </view>
+    <view class="welcome-actions">
+      <button class="btn-primary welcome-btn" bindtap="onStartTap">开始使用</button>
+    </view>
+  </view>
+
+  <!-- 登录步骤 -->
+  <view class="login-step" wx:if="{{step === 'login'}}">
+    <text class="section-title">设置你的信息</text>
+
+    <!-- 昵称 -->
+    <view class="form-group">
+      <text class="form-label">昵称</text>
+      <input class="form-input" placeholder="给自己取个名字吧" maxlength="10"
+             value="{{nickname}}" bindinput="onNicknameInput" />
+    </view>
+
+    <!-- 身份选择 -->
+    <view class="form-group">
+      <text class="form-label">身份</text>
+      <view class="identity-list flex-row flex-wrap">
+        <view class="identity-item {{selectedIdentity === item.id ? 'identity-item--active' : ''}}"
+              wx:for="{{identityList}}" wx:key="id"
+              data-id="{{item.id}}" bindtap="onIdentityTap">
+          <text>{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 头像选择 -->
+    <view class="form-group">
+      <text class="form-label">头像</text>
+      <view class="avatar-list flex-row flex-wrap">
+        <view class="avatar-item {{selectedAvatarIndex === index ? 'avatar-item--active' : ''}}"
+              wx:for="{{avatarList}}" wx:key="index"
+              data-index="{{index}}" bindtap="onAvatarTap">
+          <image class="avatar-image" src="{{item}}" mode="aspectFill"></image>
+        </view>
+      </view>
+    </view>
+
+    <!-- 错误提示 -->
+    <text class="error-text" wx:if="{{errorMsg}}">{{errorMsg}}</text>
+
+    <!-- 确认按钮 -->
+    <button class="btn-primary login-btn" bindtap="onLoginTap" disabled="{{loading}}">
+      {{loading ? '登录中...' : '确认登录'}}
+    </button>
+  </view>
+
+  <!-- 加入/创建家庭步骤 -->
+  <view class="family-step" wx:if="{{step === 'join-family'}}">
+    <text class="section-title">加入一个家庭</text>
+
+    <!-- 模式切换 -->
+    <view class="mode-switch flex-row">
+      <view class="mode-tab {{mode === 'create' ? 'mode-tab--active' : ''}}" bindtap="onCreateModeTap">
+        创建家庭
+      </view>
+      <view class="mode-tab {{mode === 'join' ? 'mode-tab--active' : ''}}" bindtap="onJoinModeTap">
+        加入家庭
+      </view>
+    </view>
+
+    <!-- 创建家庭 -->
+    <view class="create-form" wx:if="{{mode === 'create'}}">
+      <view class="form-group">
+        <text class="form-label">家庭名</text>
+        <input class="form-input" placeholder="给家庭取个名字" maxlength="10"
+               value="{{familyName}}" bindinput="onFamilyNameInput" />
+      </view>
+      <text class="error-text" wx:if="{{errorMsg}}">{{errorMsg}}</text>
+      <button class="btn-primary" bindtap="onCreateFamilyTap" disabled="{{loading}}">
+        {{loading ? '创建中...' : '创建家庭'}}
+      </button>
+    </view>
+
+    <!-- 加入家庭 -->
+    <view class="join-form" wx:if="{{mode === 'join'}}">
+      <view class="form-group">
+        <text class="form-label">昵称</text>
+        <input class="form-input" placeholder="昵称" maxlength="10"
+               value="{{nickname}}" bindinput="onNicknameInput" />
+      </view>
+      <view class="form-group">
+        <text class="form-label">身份</text>
+        <view class="identity-list flex-row flex-wrap">
+          <view class="identity-item {{selectedIdentity === item.id ? 'identity-item--active' : ''}}"
+                wx:for="{{identityList}}" wx:key="id"
+                data-id="{{item.id}}" bindtap="onIdentityTap">
+            <text>{{item.name}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="form-group">
+        <text class="form-label">家庭码</text>
+        <input class="form-input" placeholder="输入6位数字家庭码" maxlength="6" type="number"
+               value="{{familyCode}}" bindinput="onFamilyCodeInput" />
+      </view>
+      <text class="error-text" wx:if="{{errorMsg}}">{{errorMsg}}</text>
+      <button class="btn-primary" bindtap="onJoinFamilyTap" disabled="{{loading}}">
+        {{loading ? '加入中...' : '加入家庭'}}
+      </button>
+    </view>
+  </view>
+
+</view>

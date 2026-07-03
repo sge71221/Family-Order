@@ -1,0 +1,6 @@
+<!-- quantity-stepper.wxml -->
+<view class="quantity-stepper flex-row flex-center">
+  <view class="stepper-btn stepper-btn--minus {{value <= min ? 'disabled' : ''}}" bindtap="onMinusTap">−</view>
+  <text class="stepper-value">{{value}}</text>
+  <view class="stepper-btn stepper-btn--plus {{value >= max ? 'disabled' : ''}}" bindtap="onPlusTap">+</view>
+</view>

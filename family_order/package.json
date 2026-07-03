@@ -1,0 +1,14 @@
+{
+  "name": "family-order",
+  "version": "1.0.0",
+  "description": "家庭点菜微信小程序",
+  "main": "miniprogram/app.js",
+  "scripts": {
+    "dev": "echo \"Use WeChat DevTools for development\"",
+    "lint": "echo \"Lint with WeChat DevTools\""
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "miniprogram": "miniprogram",
+  "cloudfunctionRoot": "cloudfunctions/"
+}

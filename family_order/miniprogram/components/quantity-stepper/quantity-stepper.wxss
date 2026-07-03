@@ -1,0 +1,38 @@
+/** quantity-stepper.wxss */
+@import '../../styles/mixins.wxss';
+
+.quantity-stepper {
+  gap: var(--spacing-xs);
+}
+
+.stepper-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  background-color: var(--color-primary-bg);
+  transition: all var(--transition-fast);
+}
+
+.stepper-btn:active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.stepper-btn.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.stepper-value {
+  font-size: var(--font-size-number);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-on-surface);
+  min-width: 30px;
+  text-align: center;
+}

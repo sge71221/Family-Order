@@ -1,0 +1,123 @@
+<!-- dish-edit.wxml -->
+<view class="dish-edit-page page-container--no-bar">
+  <scroll-view class="dish-edit-scroll" scroll-y>
+    <!-- 名称 -->
+    <view class="form-group">
+      <text class="form-label">菜品名</text>
+      <input class="form-input" placeholder="菜品名称" maxlength="20" value="{{name}}" bindinput="onNameInput" />
+    </view>
+
+    <!-- 分类 -->
+    <view class="form-group">
+      <text class="form-label">分类</text>
+      <view class="category-list flex-row flex-wrap">
+        <view class="category-item {{category === item.id ? 'category-item--active' : ''}}"
+              wx:for="{{categories}}" wx:key="id"
+              data-id="{{item.id}}" bindtap="onCategoryTap">
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 难度 -->
+    <view class="form-group">
+      <text class="form-label">难度</text>
+      <view class="difficulty-list flex-row">
+        <view class="difficulty-item {{difficulty === item.id ? 'difficulty-item--active' : ''}}"
+              wx:for="{{difficultyOptions}}" wx:key="id"
+              data-id="{{item.id}}" bindtap="onDifficultyTap">
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 烹饪时间 -->
+    <view class="form-group">
+      <text class="form-label">烹饪时间（分钟）</text>
+      <input class="form-input" type="number" placeholder="0" value="{{cookTime}}" bindinput="onCookTimeInput" />
+    </view>
+
+    <!-- 图片 -->
+    <view class="form-group">
+      <text class="form-label">菜品图片</text>
+      <dish-image images="{{images}}" maxCount="3" editable="{{true}}"
+                  bind:addimages="onAddImage" bind:deleteimage="onDeleteImage"></dish-image>
+    </view>
+
+    <!-- 标签 -->
+    <view class="form-group">
+      <text class="form-label">标签</text>
+      <view class="tag-section" wx:for="{{tagGroups}}" wx:for-item="group" wx:for-index="groupName" wx:key="groupName">
+        <text class="tag-section__title">{{groupName}}</text>
+        <view class="tag-section__list flex-row flex-wrap">
+          <view class="tag-select-item {{tags.indexOf(item.name) >= 0 ? 'tag-select-item--active' : ''}}"
+                wx:for="{{group}}" wx:for-item="item" wx:key="id"
+                data-tag="{{item}}" bindtap="onTagTap">
+            {{item.name}}
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 食材 -->
+    <view class="form-group">
+      <text class="form-label">食材</text>
+      <input class="form-input" placeholder="搜索食材添加" value="{{selectedIngredientSearch}}" bindinput="onIngredientSearch" />
+      <view class="ingredient-search-results" wx:if="{{ingredientSearchResults.length > 0}}">
+        <view class="search-result-item flex-row flex-between" wx:for="{{ingredientSearchResults}}" wx:key="_id"
+              data-id="{{item._id}}" data-name="{{item.name}}" data-unit="{{item.unit}}" bindtap="onAddIngredient">
+          <text>{{item.name}} ({{item.unit}})</text>
+          <text class="text-primary">添加</text>
+        </view>
+      </view>
+      <view class="ingredient-list">
+        <view class="ingredient-edit-row flex-row flex-between" wx:for="{{ingredients}}" wx:key="name">
+          <text>{{item.name}}</text>
+          <input class="ingredient-qty-input" type="digit" value="{{item.quantity}}" data-index="{{index}}" bindinput="onIngredientQtyInput" />
+          <text>{{item.unit}}</text>
+          <text class="remove-btn" data-index="{{index}}" catchtap="onRemoveIngredient">×</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 步骤 -->
+    <view class="form-group">
+      <text class="form-label">做法步骤</text>
+      <view class="step-list">
+        <view class="step-edit-row" wx:for="{{steps}}" wx:key="order">
+          <text class="step-number">{{item.order}}</text>
+          <textarea class="step-textarea" placeholder="步骤描述" value="{{item.text}}" data-index="{{index}}" bindinput="onStepInput" maxlength="100"></textarea>
+          <text class="remove-btn" data-index="{{index}}" catchtap="onRemoveStep">×</text>
+        </view>
+      </view>
+      <button class="btn-outline" bindtap="onAddStep">添加步骤</button>
+    </view>
+
+    <!-- 小贴士 -->
+    <view class="form-group">
+      <text class="form-label">小贴士</text>
+      <textarea class="form-textarea" placeholder="烹饪小贴士" value="{{tips}}" bindinput="onTipsInput" maxlength="200"></textarea>
+    </view>
+
+    <!-- 备注 -->
+    <view class="form-group">
+      <text class="form-label">备注</text>
+      <textarea class="form-textarea" placeholder="菜品备注" value="{{notes}}" bindinput="onNotesInput" maxlength="200"></textarea>
+    </view>
+
+    <!-- 是否上架 -->
+    <view class="form-group flex-row flex-between">
+      <text class="form-label">上架状态</text>
+      <switch checked="{{isAvailable}}" bindchange="onAvailableChange" color="#F4A261"></switch>
+    </view>
+
+    <!-- 错误提示 -->
+    <text class="error-text" wx:if="{{errorMsg}}">{{errorMsg}}</text>
+
+    <!-- 保存按钮 -->
+    <button class="btn-primary save-btn" bindtap="onSave">保存菜品</button>
+
+    <!-- 删除按钮 -->
+    <button class="btn-text delete-btn text-error" wx:if="{{isEdit}}" bindtap="onDelete">删除菜品</button>
+  </scroll-view>
+</view>

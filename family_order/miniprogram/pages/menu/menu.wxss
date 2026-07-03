@@ -1,0 +1,44 @@
+/** menu.wxss */
+@import '../../styles/mixins.wxss';
+
+.menu-page {
+  padding-bottom: calc(var(--tab-bar-height) + env(safe-area-inset-bottom));
+}
+
+.menu-list {
+  height: calc(100vh - var(--tab-bar-height) - 200px - env(safe-area-inset-bottom));
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+.menu-list__item {
+  margin-bottom: var(--spacing-xs);
+}
+
+/* 悬浮添加按钮 */
+.fab {
+  position: fixed;
+  right: var(--spacing-sm);
+  bottom: calc(var(--tab-bar-height) + 56px + env(safe-area-inset-bottom));
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-card-hover);
+  z-index: var(--z-fixed);
+  transition: transform var(--transition-fast), background var(--transition-fast);
+}
+
+.fab--hover {
+  transform: scale(0.92);
+  background: var(--color-primary-deep);
+}
+
+.fab__icon {
+  font-size: 28px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}

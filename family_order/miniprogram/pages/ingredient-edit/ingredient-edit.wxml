@@ -1,0 +1,68 @@
+<!-- ingredient-edit.wxml -->
+<view class="ingredient-edit-page page-container--no-bar">
+  <scroll-view class="edit-scroll" scroll-y>
+    <!-- 名称 -->
+    <view class="form-group">
+      <text class="form-label">食材名</text>
+      <input class="form-input" placeholder="食材名称" value="{{name}}" bindinput="onNameInput" />
+    </view>
+
+    <!-- 单位 -->
+    <view class="form-group">
+      <text class="form-label">计量单位</text>
+      <view class="unit-list flex-row flex-wrap">
+        <view class="unit-item {{unit === item.id ? 'unit-item--active' : ''}}"
+              wx:for="{{units}}" wx:key="id" data-id="{{item.id}}" bindtap="onUnitTap">
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 单价 -->
+    <view class="form-group">
+      <text class="form-label">单价（元/{{unit}}）</text>
+      <input class="form-input" type="digit" placeholder="0" value="{{pricePerUnit}}" bindinput="onPriceInput" />
+    </view>
+
+    <!-- 库存 -->
+    <view class="form-group">
+      <text class="form-label">当前库存（{{unit}}）</text>
+      <input class="form-input" type="digit" placeholder="0" value="{{stockQuantity}}" bindinput="onStockInput" />
+    </view>
+
+    <!-- 过期日期 -->
+    <view class="form-group">
+      <text class="form-label">过期日期</text>
+      <picker mode="date" value="{{expiryDate}}" bindchange="onExpiryChange">
+        <view class="form-input picker-input">{{expiryDate || '选择日期'}}</view>
+      </picker>
+    </view>
+
+    <!-- 食材类型 -->
+    <view class="form-group">
+      <text class="form-label">食材类型</text>
+      <view class="type-list flex-row">
+        <view class="type-item {{type === item.id ? 'type-item--active' : ''}}"
+              wx:for="{{typeOptions}}" wx:key="id" data-id="{{item.id}}" bindtap="onTypeTap">
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 分类 -->
+    <view class="form-group">
+      <text class="form-label">食材分类</text>
+      <view class="category-list flex-row flex-wrap">
+        <view class="category-item {{category === item.id ? 'category-item--active' : ''}}"
+              wx:for="{{categoryOptions}}" wx:key="id" data-id="{{item.id}}" bindtap="onCategoryTap">
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+
+    <text class="error-text" wx:if="{{errorMsg}}">{{errorMsg}}</text>
+
+    <button class="btn-primary save-btn" bindtap="onSave">保存食材</button>
+    <button class="btn-text delete-btn text-error" wx:if="{{isEdit}}" bindtap="onDelete">删除食材</button>
+  </scroll-view>
+</view>

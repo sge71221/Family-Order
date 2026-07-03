@@ -1,0 +1,16 @@
+<!-- cart-bar.wxml -->
+<view class="cart-bar bottom-bar flex-row flex-between">
+  <view class="cart-bar__info flex-row" bindtap="onCartTap">
+    <view class="cart-bar__icon-wrap">
+      <text class="cart-bar__icon">🛒</text>
+      <view class="badge" wx:if="{{itemCount > 0}}">{{itemCount}}</view>
+    </view>
+    <view class="cart-bar__cost">
+      <text class="cart-bar__cost-label">合计：</text>
+      <text class="cart-bar__cost-value">¥{{displayCost}}</text>
+    </view>
+  </view>
+  <button class="btn-primary cart-bar__btn {{disabled ? 'disabled' : ''}}" bindtap="onSubmitTap">
+    {{buttonText}}
+  </button>
+</view>

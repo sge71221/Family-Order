@@ -1,0 +1,75 @@
+/** stats.wxss */
+@import '../../styles/mixins.wxss';
+
+.stats-page {
+  padding: var(--spacing-sm);
+}
+
+.stats-header {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+  margin-bottom: var(--spacing-sm);
+}
+
+.stats-header__month {
+  font-size: var(--font-size-card-title);
+  color: var(--color-on-surface);
+}
+
+.stats-summary {
+  margin-bottom: var(--spacing-sm);
+}
+
+.summary-grid {
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) 0;
+}
+
+.summary-item__value {
+  font-size: var(--font-size-number);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-on-surface);
+}
+
+.summary-item__label {
+  font-size: var(--font-size-caption);
+  color: var(--color-on-surface-muted);
+}
+
+.stats-trend, .stats-ranking {
+  margin-bottom: var(--spacing-sm);
+}
+
+.ranking-item {
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1rpx solid var(--color-divider);
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.ranking-item__rank {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-size: var(--font-size-caption);
+  text-align: center;
+  line-height: 24px;
+  flex-shrink: 0;
+}
+
+.ranking-item__name {
+  flex: 1;
+  font-size: var(--font-size-body);
+}
+
+.ranking-item__count {
+  font-size: var(--font-size-caption);
+}
+
+.ranking-item__cost {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+}

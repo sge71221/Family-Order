@@ -1,0 +1,55 @@
+<!-- stats.wxml -->
+<view class="stats-page page-container">
+  <!-- 月份选择 -->
+  <view class="stats-header flex-row flex-between">
+    <picker mode="date" fields="month" value="{{currentMonth}}" bindchange="onMonthChange">
+      <view class="stats-header__month text-medium">{{currentMonth}}</view>
+    </picker>
+  </view>
+
+  <skeleton type="card" count="{{2}}" wx:if="{{loading}}"></skeleton>
+
+  <view wx:if="{{!loading && summary}}">
+    <!-- 月度汇总 -->
+    <view class="stats-summary card-surface">
+      <view class="summary-grid flex-row flex-around">
+        <view class="summary-item flex-col flex-center">
+          <text class="summary-item__value text-primary">¥{{summary.totalCostYuan}}</text>
+          <text class="summary-item__label">总花费</text>
+        </view>
+        <view class="summary-item flex-col flex-center">
+          <text class="summary-item__value">{{summary.orderCount}}</text>
+          <text class="summary-item__label">点餐次数</text>
+        </view>
+        <view class="summary-item flex-col flex-center">
+          <text class="summary-item__value">{{summary.dishCount}}</text>
+          <text class="summary-item__label">菜品数</text>
+        </view>
+        <view class="summary-item flex-col flex-center">
+          <text class="summary-item__value text-primary">¥{{summary.avgCostPerDayYuan}}</text>
+          <text class="summary-item__label">日均花费</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 日消费趋势 -->
+    <view class="stats-trend card-surface" wx:if="{{dailyTrend.length > 0}}">
+      <text class="section-title">日消费趋势</text>
+      <bar-chart data="{{dailyTrend}}" height="180" barColor="#F4A261"></bar-chart>
+    </view>
+
+    <!-- 菜品排行 -->
+    <view class="stats-ranking card-surface" wx:if="{{topDishes.length > 0}}">
+      <text class="section-title">菜品排行</text>
+      <view class="ranking-item flex-row flex-between" wx:for="{{topDishes}}" wx:key="dishId">
+        <text class="ranking-item__rank">{{index + 1}}</text>
+        <text class="ranking-item__name">{{item.dishName}}</text>
+        <text class="ranking-item__count text-muted">{{item.orderCount}}次</text>
+        <text class="ranking-item__cost text-primary">¥{{item.totalCostYuan}}</text>
+      </view>
+    </view>
+  </view>
+
+  <empty-state title="暂无统计数据" description="开始点餐后自动生成统计"
+               wx:if="{{!loading && !summary}}"></empty-state>
+</view>

@@ -1,0 +1,11 @@
+/** order.wxss */
+@import '../../styles/mixins.wxss';
+
+.order-page {
+  padding-bottom: calc(var(--bottom-bar-height) + env(safe-area-inset-bottom));
+}
+
+.order-list {
+  height: calc(100vh - var(--bottom-bar-height) - 160px);
+  padding: var(--spacing-xs) var(--spacing-sm);
+}

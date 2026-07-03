@@ -1,0 +1,70 @@
+/** family-manage.wxss */
+@import '../../styles/mixins.wxss';
+
+.family-manage-page {
+  padding: var(--spacing-sm);
+}
+
+.family-info {
+  margin-bottom: var(--spacing-sm);
+}
+
+.family-info__row {
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1rpx solid var(--color-divider);
+  align-items: center;
+}
+
+.family-info__label {
+  font-size: var(--font-size-body);
+  color: var(--color-on-surface);
+}
+
+.family-info__value {
+  font-size: var(--font-size-body);
+  color: var(--color-on-surface-muted);
+}
+
+.family-info__input {
+  width: 150px;
+  height: 36px;
+  border: 2rpx solid var(--color-divider);
+  border-radius: var(--radius-small);
+  font-size: var(--font-size-body);
+  padding: 0 var(--spacing-xs);
+}
+
+.family-info__update-btn {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  padding-left: var(--spacing-xs);
+}
+
+.family-info__code {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
+}
+
+.family-info__copy, .family-info__reset {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+}
+
+.member-section {
+  margin-bottom: var(--spacing-sm);
+}
+
+.member-item {
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1rpx solid var(--color-divider);
+  align-items: center;
+}
+
+.member-item__role {
+  font-size: var(--font-size-caption);
+}
+
+.member-item__remove {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+}

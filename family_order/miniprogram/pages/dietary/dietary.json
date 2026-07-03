@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "忌口设置",
+  "usingComponents": {
+    "allergen-badge": "/components/allergen-badge/allergen-badge",
+    "tag-pill": "/components/tag-pill/tag-pill"
+  }
+}

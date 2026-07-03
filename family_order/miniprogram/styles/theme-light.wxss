@@ -1,0 +1,16 @@
+/** theme-light.wxss — 浅色主题样式覆盖 */
+/* 浅色模式下使用默认变量值，此处用于特定浅色增强 */
+page {
+  --color-bg: #F8F3EC;
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F2EBD9;
+  --color-on-surface: #2A1F14;
+  --color-on-surface-muted: #6B5B47;
+  --color-on-surface-light: #A89A8C;
+  --color-divider: #E8DCC8;
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-bottom-bar: 0 -2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-modal: 0 8px 40px rgba(0, 0, 0, 0.2);
+  --color-loading-bg: rgba(248, 243, 236, 0.9);
+  --color-mask-bg: rgba(42, 31, 20, 0.5);
+}

@@ -1,0 +1,37 @@
+<!-- menu.wxml — 菜单页面模板 -->
+<view class="menu-page page-container">
+  <!-- 离线提示 -->
+  <offline-banner isOffline="{{isOffline}}" bind:retry="onNetworkRetry"></offline-banner>
+
+  <!-- 搜索栏 -->
+  <search-bar placeholder="搜索菜品..." value="{{keyword}}"
+              historyList="{{searchHistory}}"
+              bind:input="onSearchInput" bind:search="onSearch"
+              bind:clear="onSearchClear" bind:clearhistory="onClearHistory"></search-bar>
+
+  <!-- 分类标签 -->
+  <category-tab categories="{{categories}}" activeId="{{activeCategory}}"
+                bind:change="onCategoryChange"></category-tab>
+
+  <!-- 骨架屏 -->
+  <skeleton type="card" count="{{5}}" wx:if="{{loading}}"></skeleton>
+
+  <!-- 菜品列表 -->
+  <scroll-view class="menu-list" scroll-y wx:if="{{!loading}}">
+    <view class="menu-list__item" wx:for="{{filteredDishes}}" wx:key="_id">
+      <dish-card dish="{{item}}" showTags="{{true}}" showConflict="{{true}}"
+                 dietaryConflict="{{dietaryConflictMap[item._id]}}"
+                 bind:cardtap="onDishTap"></dish-card>
+    </view>
+  </scroll-view>
+
+  <!-- 空状态 -->
+  <empty-state title="暂无菜品" description="快去添加一道家传菜吧"
+               actionText="添加菜品" wx:if="{{!loading && filteredDishes.length === 0}}"
+               bind:action="onAddDish"></empty-state>
+
+  <!-- 添加菜品悬浮按钮 -->
+  <view class="fab" hover-class="fab--hover" bind:tap="onAddDish">
+    <view class="fab__icon">+</view>
+  </view>
+</view>

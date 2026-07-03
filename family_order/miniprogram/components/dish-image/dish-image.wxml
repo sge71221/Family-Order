@@ -1,0 +1,12 @@
+<!-- dish-image.wxml -->
+<view class="dish-image-list flex-row flex-wrap">
+  <view class="dish-image-item" wx:for="{{images}}" wx:key="*this">
+    <image class="dish-image-item__img" src="{{item}}" mode="aspectFill" bindtap="onImageTap" data-index="{{index}}"></image>
+    <view class="dish-image-item__delete" wx:if="{{editable}}" catchtap="onDeleteTap" data-index="{{index}}">
+      <text class="delete-icon">×</text>
+    </view>
+  </view>
+  <view class="dish-image-item dish-image-item--add" wx:if="{{editable && images.length < maxCount}}" bindtap="onAddTap">
+    <text class="add-icon">+</text>
+  </view>
+</view>

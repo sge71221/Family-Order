@@ -1,0 +1,33 @@
+sequenceDiagram
+    participant Admin as 管理员
+    participant DishEdit as 菜品编辑页
+    participant DishS as DishService
+    participant CloudAdapter as CloudAdapter
+    participant CloudDB as 云数据库
+    participant CloudStorage as 云存储
+    participant Cache as LocalCache
+    participant EventBus as EventBus
+
+    Admin->>DishEdit: 填写菜品名称、分类、备注
+    Admin->>DishEdit: 选择标签
+    Admin->>DishEdit: 添加食材配料（搜索食材库+输入用量）
+    Admin->>DishEdit: 上传菜品图片（拍照/选择相册）
+    DishEdit->>DishS: uploadDishImage(localPath)
+    DishS->>CloudStorage: uploadFile(localPath, "dishes/{familyId}/{timestamp}.jpg")
+    CloudStorage-->>DishS: 返回 {fileID, url}
+    DishS-->>DishEdit: 图片上传成功
+
+    Admin->>DishEdit: 点击"保存"
+    DishEdit->>DishS: createDish(dishData)
+    DishS->>CloudAdapter: add("Dish", dishData)
+    CloudAdapter->>CloudDB: 写入 Dish 集合
+    CloudDB-->>CloudAdapter: 返回 { _id }
+    CloudAdapter-->>DishS: 返回菜品 ID
+
+    DishS->>Cache: 读取 cache_dishes
+    DishS->>Cache: 将新菜品追加到缓存列表 + 写入 cache_dishes + 更新过期时间戳
+    DishS->>EventBus: publish("dishUpdated")
+    DishS-->>DishEdit: 返回成功
+
+    DishEdit->>Admin: 提示"菜品已保存"→ 返回菜单页
+    EventBus->>菜单页: 收到 dishUpdated → 刷新菜品列表

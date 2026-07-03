@@ -1,0 +1,46 @@
+/** tag-pill.wxss */
+@import '../../styles/mixins.wxss';
+
+.tag-pill-list {
+  gap: 6rpx;
+}
+
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 12rpx;
+  border-radius: var(--radius-tag);
+  font-size: var(--font-size-caption);
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
+  line-height: 1.4;
+  transition: all var(--transition-fast);
+}
+
+.tag-pill--allergen {
+  background-color: var(--color-allergen-severe-bg);
+  color: var(--color-allergen-severe);
+}
+
+.tag-pill--preference {
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.tag-pill__text {
+  max-width: 120rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag-pill__remove {
+  margin-left: 4rpx;
+  display: flex;
+  align-items: center;
+}
+
+.tag-pill__remove-icon {
+  font-size: 14px;
+  color: var(--color-on-surface-muted);
+}

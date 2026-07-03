@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "统计",
+  "usingComponents": {
+    "bar-chart": "/components/bar-chart/bar-chart",
+    "dish-card": "/components/dish-card/dish-card",
+    "skeleton": "/components/skeleton/skeleton",
+    "empty-state": "/components/empty-state/empty-state"
+  }
+}

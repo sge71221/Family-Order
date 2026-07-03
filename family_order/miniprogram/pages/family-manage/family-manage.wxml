@@ -1,0 +1,34 @@
+<!-- family-manage.wxml -->
+<view class="family-manage-page page-container">
+  <!-- 家庭信息 -->
+  <view class="family-info card-surface">
+    <view class="family-info__row flex-row flex-between">
+      <text class="family-info__label">家庭名</text>
+      <view class="family-info__edit-wrap flex-row" wx:if="{{isAdmin}}">
+        <input class="family-info__input" value="{{familyName}}" bindinput="onFamilyNameInput" maxlength="10" />
+        <text class="family-info__update-btn text-primary" bindtap="onUpdateFamilyName">更新</text>
+      </view>
+      <text class="family-info__value" wx:if="{{!isAdmin}}">{{familyName}}</text>
+    </view>
+    <view class="family-info__row flex-row flex-between" wx:if="{{isAdmin}}">
+      <text class="family-info__label">家庭码</text>
+      <view class="flex-row">
+        <text class="family-info__code text-primary">{{familyCode}}</text>
+        <text class="family-info__copy text-primary ml-xs" bindtap="onCopyCode">复制</text>
+        <text class="family-info__reset text-error ml-xs" bindtap="onResetCode">重置</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 成员列表 -->
+  <view class="member-section card-surface">
+    <text class="section-title">家庭成员</text>
+    <view class="member-item flex-row flex-between" wx:for="{{members}}" wx:key="memberId">
+      <member-avatar avatarUrl="{{item.avatarUrl}}" nickname="{{item.nickname}}" identity="{{item.identity}}"
+                     size="small"></member-avatar>
+      <text class="member-item__role text-muted">{{item.role === 'admin' ? '管理员' : '成员'}}</text>
+      <text class="member-item__remove text-error" wx:if="{{isAdmin && item.role !== 'admin'}}"
+            data-id="{{item.memberId}}" data-name="{{item.nickname}}" bindtap="onRemoveMember">移除</text>
+    </view>
+  </view>
+</view>

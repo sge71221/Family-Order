@@ -1,0 +1,58 @@
+/** ingredient-item.wxss */
+@import '../../styles/mixins.wxss';
+
+.ingredient-item {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--color-surface);
+  border-bottom: 1rpx solid var(--color-divider);
+}
+
+.ingredient-item__check {
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.check-icon {
+  font-size: 20px;
+  color: var(--color-primary);
+}
+
+.ingredient-item__info {
+  min-width: 0;
+  gap: 4rpx;
+}
+
+.ingredient-item__name {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-on-surface);
+}
+
+.ingredient-item__meta {
+  gap: var(--spacing-xs);
+}
+
+.ingredient-item__unit, .ingredient-item__stock {
+  font-size: var(--font-size-caption);
+  color: var(--color-on-surface-muted);
+}
+
+.ingredient-item__price {
+  font-size: var(--font-size-caption);
+  color: var(--color-primary);
+}
+
+.ingredient-item__expiry {
+  font-size: var(--font-size-caption);
+}
+
+.ingredient-item__action {
+  flex-shrink: 0;
+}
+
+.action-text {
+  font-size: var(--font-size-caption);
+  color: var(--color-primary);
+}

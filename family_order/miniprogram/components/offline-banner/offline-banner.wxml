@@ -1,0 +1,5 @@
+<!-- offline-banner.wxml -->
+<view class="offline-banner flex-row flex-between" wx:if="{{isOffline}}">
+  <text class="offline-banner__text">网络不可用，数据可能不是最新</text>
+  <text class="offline-banner__retry" bindtap="onRetryTap">重试</text>
+</view>

@@ -1,0 +1,8 @@
+<!-- empty-state.wxml -->
+<view class="empty-state flex-col flex-center">
+  <image class="empty-state__icon" wx:if="{{icon}}" src="{{icon}}" mode="aspectFit"></image>
+  <text class="empty-state__icon-text" wx:if="{{!icon}}">🍽</text>
+  <text class="empty-state__title">{{title}}</text>
+  <text class="empty-state__desc" wx:if="{{description}}">{{description}}</text>
+  <button class="btn-primary empty-state__action" wx:if="{{actionText}}" bindtap="onActionTap">{{actionText}}</button>
+</view>

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "编辑菜品",
+  "usingComponents": {
+    "dish-image": "/components/dish-image/dish-image",
+    "tag-pill": "/components/tag-pill/tag-pill",
+    "modal-confirm": "/components/modal-confirm/modal-confirm"
+  }
+}

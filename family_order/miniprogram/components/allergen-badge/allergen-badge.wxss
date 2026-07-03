@@ -1,0 +1,21 @@
+/** allergen-badge.wxss */
+.allergen-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 12rpx;
+  border-radius: var(--radius-tag);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  gap: 4rpx;
+}
+
+.allergen-badge__label {
+  font-weight: var(--font-weight-bold);
+}
+
+.allergen-badge__name {
+  max-width: 100rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

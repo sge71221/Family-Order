@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "食材库存",
+  "usingComponents": {
+    "ingredient-item": "/components/ingredient-item/ingredient-item",
+    "search-bar": "/components/search-bar/search-bar",
+    "empty-state": "/components/empty-state/empty-state",
+    "skeleton": "/components/skeleton/skeleton"
+  }
+}

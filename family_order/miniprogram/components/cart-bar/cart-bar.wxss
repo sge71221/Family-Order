@@ -1,0 +1,47 @@
+/** cart-bar.wxss */
+@import '../../styles/mixins.wxss';
+
+.cart-bar {
+  padding: var(--spacing-xs) var(--spacing-sm) env(safe-area-inset-bottom);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-bottom-bar);
+}
+
+.cart-bar__info {
+  flex: 1;
+  gap: var(--spacing-sm);
+}
+
+.cart-bar__icon-wrap {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-bar__icon {
+  font-size: 24px;
+}
+
+.cart-bar__cost {
+  display: flex;
+  align-items: center;
+}
+
+.cart-bar__cost-label {
+  font-size: var(--font-size-caption);
+  color: var(--color-on-surface-muted);
+}
+
+.cart-bar__cost-value {
+  font-size: var(--font-size-number);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+.cart-bar__btn {
+  min-width: 120px;
+  padding: 0 var(--spacing-md);
+}

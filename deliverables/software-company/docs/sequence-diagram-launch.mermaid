@@ -1,0 +1,28 @@
+sequenceDiagram
+    participant User as 用户
+    participant App as 小程序 App
+    participant AuthS as AuthService
+    participant FamilyS as FamilyService
+    participant DishS as DishService
+    participant Cache as LocalCache
+    participant CloudDB as 云数据库
+
+    User->>App: 打开小程序
+    App->>App: onLaunch — 初始化云开发
+    App->>AuthS: wxLogin()
+    AuthS->>CloudDB: 查询 Member(openid)
+    CloudDB-->>AuthS: 返回 Member 数据
+    AuthS-->>App: 返回 {openid, member, familyId}
+    App->>App: globalData.currentMember = member
+    App->>FamilyS: getFamilyInfo()
+    FamilyS->>Cache: 读取 cache_family_info
+    Cache-->>FamilyS: 缓存命中 → 返回数据
+    FamilyS-->>App: 返回家庭信息
+    App->>DishS: getDishList("全部")
+    DishS->>Cache: 读取 cache_dishes + 检查过期
+    Cache-->>DishS: 缓存过期/首次 → 需联网
+    DishS->>CloudDB: 查询 Dish(familyId, isAvailable=true)
+    CloudDB-->>DishS: 返回菜品列表
+    DishS->>Cache: 写入 cache_dishes + 更新过期时间戳
+    DishS-->>App: 返回菜品列表
+    App->>App: 渲染菜单页（搜索+分类Tab+卡片网格）

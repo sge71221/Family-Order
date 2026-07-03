@@ -1,0 +1,77 @@
+/** purchase.wxss */
+@import '../../styles/mixins.wxss';
+
+.purchase-page {
+  padding: var(--spacing-sm);
+}
+
+.purchase-header {
+  text-align: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.purchase-header__title {
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-bold);
+  display: block;
+}
+
+.purchase-header__progress {
+  font-size: var(--font-size-caption);
+  color: var(--color-on-surface-muted);
+  display: block;
+}
+
+.purchase-header__cost {
+  font-size: var(--font-size-number);
+  display: block;
+}
+
+.purchase-category {
+  margin-bottom: var(--spacing-sm);
+}
+
+.purchase-category__title {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-on-surface-muted);
+  margin-bottom: var(--spacing-xs);
+  display: block;
+}
+
+.purchase-item {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--color-surface);
+  border-bottom: 1rpx solid var(--color-divider);
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.check-icon {
+  font-size: 20px;
+  color: var(--color-success);
+}
+
+.purchase-item__info {
+  min-width: 0;
+}
+
+.purchase-item__name {
+  font-size: var(--font-size-body);
+}
+
+.purchase-item__qty {
+  font-size: var(--font-size-caption);
+}
+
+.purchase-item__cost {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.purchase-actions {
+  padding: var(--spacing-md);
+  gap: var(--spacing-sm);
+}

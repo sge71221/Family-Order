@@ -1,0 +1,11 @@
+<!-- tag-pill.wxml -->
+<view class="tag-pill-list flex-row flex-wrap">
+  <view class="tag-pill {{type === 'allergen' ? 'tag-pill--allergen' : ''}} {{type === 'preference' ? 'tag-pill--preference' : ''}}"
+        wx:for="{{tags}}" wx:key="*this"
+        bindtap="onTagTap" data-index="{{index}}">
+    <text class="tag-pill__text">{{item.name || item}}</text>
+    <view class="tag-pill__remove" wx:if="{{removable}}" catchtap="onRemoveTap" data-index="{{index}}">
+      <text class="tag-pill__remove-icon">×</text>
+    </view>
+  </view>
+</view>

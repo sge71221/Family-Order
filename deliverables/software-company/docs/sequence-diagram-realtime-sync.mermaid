@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant MemberA as 成员A
+    participant MemberB as 成员B
+    participant OrderS_A as OrderService(A)
+    participant OrderS_B as OrderService(B)
+    participant CloudDB as 云数据库
+    participant Watcher as Watch实时推送
+    participant SummaryPage as 汇总页
+
+    MemberA->>OrderS_A: submitOrder(cartA)
+    OrderS_A->>CloudDB: 更新 Order.items（追加A的菜品）
+    CloudDB-->>OrderS_A: 返回更新结果
+
+    CloudDB->>Watcher: 触发 watch onChange
+    Watcher->>SummaryPage: 推送订单变更数据
+    SummaryPage->>SummaryPage: 重新汇总：番茄炒蛋×3(A:1份)
+    SummaryPage->>MemberA: 更新汇总显示
+
+    MemberB->>OrderS_B: submitOrder(cartB)
+    OrderS_B->>CloudDB: 更新 Order.items（追加B的菜品）
+    CloudDB-->>OrderS_B: 返回更新结果
+
+    CloudDB->>Watcher: 触发 watch onChange
+    Watcher->>SummaryPage: 推送订单变更数据
+    SummaryPage->>SummaryPage: 重新汇总：番茄炒蛋×3(A:1+B:2份,少盐)
+    SummaryPage->>MemberB: 更新汇总显示

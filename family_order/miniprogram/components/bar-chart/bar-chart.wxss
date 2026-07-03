@@ -1,0 +1,10 @@
+/** bar-chart.wxss */
+.bar-chart {
+  padding: var(--spacing-sm);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+}
+
+.bar-chart__canvas {
+  width: 100%;
+}

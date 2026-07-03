@@ -1,0 +1,89 @@
+/** variables.wxss — CSS 变量系统基础定义 */
+page {
+  /* === 色彩体系 === */
+  --color-primary: #F4A261;
+  --color-primary-deep: #E07856;
+  --color-primary-light: #F7C59F;
+  --color-primary-bg: rgba(244, 162, 97, 0.12);
+  --color-success: #4CAF50;
+  --color-success-bg: rgba(76, 175, 80, 0.12);
+  --color-warning: #FFC107;
+  --color-warning-bg: rgba(255, 193, 7, 0.12);
+  --color-error: #E53935;
+  --color-error-bg: rgba(229, 57, 53, 0.12);
+  --color-info: #2196F3;
+  --color-info-bg: rgba(33, 150, 243, 0.12);
+
+  /* === 背景与表面 === */
+  --color-bg: #F8F3EC;
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F2EBD9;
+  --color-on-surface: #2A1F14;
+  --color-on-surface-muted: #6B5B47;
+  --color-on-surface-light: #A89A8C;
+  --color-divider: #E8DCC8;
+
+  /* === 忌口标记色 === */
+  --color-allergen-severe: #E53935;
+  --color-allergen-mild: #FFC107;
+  --color-allergen-severe-bg: rgba(229, 57, 53, 0.15);
+  --color-allergen-mild-bg: rgba(255, 193, 7, 0.15);
+
+  /* === 字体尺寸 === */
+  --font-size-title: 22px;
+  --font-size-card-title: 16px;
+  --font-size-body: 15px;
+  --font-size-caption: 12px;
+  --font-size-tab: 10px;
+  --font-size-number: 20px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
+
+  /* === 圆角 === */
+  --radius-card: 16px;
+  --radius-button: 28px;
+  --radius-image: 12px;
+  --radius-tag: 8px;
+  --radius-input: 8px;
+  --radius-small: 4px;
+
+  /* === 间距 === */
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --spacing-xl: 48px;
+  --spacing-page: 16px;
+
+  /* === 阴影 === */
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 4px 20px rgba(0, 0, 0, 0.12);
+  --shadow-bottom-bar: 0 -2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-modal: 0 8px 40px rgba(0, 0, 0, 0.2);
+
+  /* === 尺寸 === */
+  --button-min-height: 48px;
+  --bottom-bar-height: 83px;
+  --tab-bar-height: 50px;
+  --image-size-thumb: 80px;
+  --image-size-medium: 160px;
+  --image-size-large: 280px;
+  --icon-size-sm: 16px;
+  --icon-size-md: 24px;
+  --icon-size-lg: 32px;
+
+  /* === 动画 === */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow: 0.4s ease;
+
+  /* === Z层级 === */
+  --z-normal: 1;
+  --z-sticky: 10;
+  --z-fixed: 100;
+  --z-modal-backdrop: 500;
+  --z-modal: 510;
+  --z-toast: 600;
+  --z-loading: 700;
+}

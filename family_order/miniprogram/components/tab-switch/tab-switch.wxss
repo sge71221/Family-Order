@@ -1,0 +1,22 @@
+/** tab-switch.wxss */
+.tab-switch {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-tag);
+  padding: 4rpx;
+}
+
+.tab-switch__item {
+  flex: 1;
+  text-align: center;
+  padding: var(--spacing-xs);
+  font-size: var(--font-size-body);
+  color: var(--color-on-surface-muted);
+  border-radius: var(--radius-small);
+  transition: all var(--transition-fast);
+}
+
+.tab-switch__item--active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-weight: var(--font-weight-medium);
+}

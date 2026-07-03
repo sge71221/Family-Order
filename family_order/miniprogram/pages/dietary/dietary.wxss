@@ -1,0 +1,109 @@
+/** dietary.wxss */
+@import '../../styles/mixins.wxss';
+
+.dietary-page {
+  background-color: var(--color-bg);
+}
+
+.dietary-scroll {
+  height: 100vh;
+  padding: var(--spacing-sm) env(safe-area-inset-bottom);
+}
+
+.dietary-section {
+  margin-bottom: var(--spacing-sm);
+}
+
+.sub-title {
+  font-size: var(--font-size-caption);
+  color: var(--color-on-surface-muted);
+  margin-top: var(--spacing-xs);
+  display: block;
+}
+
+.allergen-row, .dislike-row {
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1rpx solid var(--color-divider);
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.allergen-name {
+  font-size: var(--font-size-body);
+  flex: 1;
+}
+
+.severity-select, .level-select {
+  gap: 4rpx;
+}
+
+.severity-btn, .level-btn {
+  padding: 4rpx 8rpx;
+  font-size: var(--font-size-caption);
+  border-radius: var(--radius-small);
+  background-color: var(--color-surface-alt);
+  color: var(--color-on-surface-muted);
+}
+
+.severity-btn--active, .level-btn--active {
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.quick-allergens {
+  gap: 6rpx;
+}
+
+.quick-allergen-item {
+  padding: 4rpx 12rpx;
+  font-size: var(--font-size-caption);
+  background-color: var(--color-surface);
+  border: 2rpx solid var(--color-divider);
+  border-radius: var(--radius-tag);
+  color: var(--color-on-surface);
+}
+
+.custom-add {
+  gap: var(--spacing-xs);
+  align-items: center;
+  margin-top: var(--spacing-xs);
+}
+
+.custom-add__input {
+  flex: 1;
+  height: 36px;
+  border: 2rpx solid var(--color-divider);
+  border-radius: var(--radius-small);
+  padding: 0 var(--spacing-xs);
+  font-size: var(--font-size-body);
+}
+
+.custom-add__btn {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+}
+
+.preference-list {
+  gap: var(--spacing-xs);
+}
+
+.preference-item {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-body);
+  background-color: var(--color-surface);
+  border: 2rpx solid var(--color-divider);
+  border-radius: var(--radius-tag);
+  color: var(--color-on-surface);
+}
+
+.preference-item--active {
+  background-color: var(--color-success-bg);
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.save-btn {
+  width: 100%;
+  margin-top: var(--spacing-md);
+}

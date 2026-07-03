@@ -1,0 +1,24 @@
+/** member-avatar.wxss */
+.member-avatar {
+  gap: 4rpx;
+}
+
+.member-avatar__img {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.member-avatar__name {
+  font-size: var(--font-size-caption);
+  color: var(--color-on-surface);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 80px;
+  text-align: center;
+}
+
+.member-avatar__identity {
+  font-size: 10px;
+  color: var(--color-on-surface-muted);
+}

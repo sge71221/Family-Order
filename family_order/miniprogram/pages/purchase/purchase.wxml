@@ -1,0 +1,36 @@
+<!-- purchase.wxml -->
+<view class="purchase-page page-container">
+  <skeleton type="list" count="{{5}}" wx:if="{{loading}}"></skeleton>
+
+  <view wx:if="{{!loading && hasOrder}}">
+    <!-- 概览 -->
+    <view class="purchase-header card-surface">
+      <text class="purchase-header__title">采购清单</text>
+      <text class="purchase-header__progress">已勾选 {{checkedCount}}/{{totalCount}}</text>
+      <text class="purchase-header__cost text-primary">预估 ¥{{totalEstimatedCostYuan}}</text>
+    </view>
+
+    <!-- 按分类展示 -->
+    <view class="purchase-category" wx:for="{{categorizedList}}" wx:for-index="catName" wx:key="catName">
+      <text class="purchase-category__title">{{catName}}</text>
+      <view class="purchase-item flex-row" wx:for="{{item}}" wx:for-item="item" wx:key="ingredientId"
+            data-index="{{item._originalIndex}}" bindtap="onItemCheck">
+        <text class="check-icon">{{item.isChecked ? '✓' : '○'}}</text>
+        <view class="purchase-item__info flex-1">
+          <text class="purchase-item__name">{{item.name}}</text>
+          <text class="purchase-item__qty text-muted">{{item.purchaseQtyStr}}</text>
+        </view>
+        <text class="purchase-item__cost" wx:if="{{item.estimatedCostYuan}}">¥{{item.estimatedCostYuan}}</text>
+      </view>
+    </view>
+
+    <!-- 操作栏 -->
+    <view class="purchase-actions flex-row">
+      <button class="btn-outline" bindtap="onCopyText">复制清单</button>
+      <button class="btn-text" bindtap="onGoInventory">管理食材库</button>
+    </view>
+  </view>
+
+  <empty-state title="暂无采购需求" description="今日暂无点餐订单"
+               wx:if="{{!loading && !hasOrder}}"></empty-state>
+</view>
