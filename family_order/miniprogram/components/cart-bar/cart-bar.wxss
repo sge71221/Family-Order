@@ -2,9 +2,18 @@
 @import '../../styles/mixins.wxss';
 
 .cart-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-fixed, 100);
+  height: var(--bottom-bar-height, 83px);
+  display: flex;
+  align-items: center;
   padding: var(--spacing-xs) var(--spacing-sm) env(safe-area-inset-bottom);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-bottom-bar);
+  box-sizing: border-box;
 }
 
 .cart-bar__info {

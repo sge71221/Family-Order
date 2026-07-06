@@ -9,26 +9,35 @@
               bind:input="onSearchInput" bind:search="onSearch"
               bind:clear="onSearchClear" bind:clearhistory="onClearHistory"></search-bar>
 
-  <!-- 分类标签 -->
-  <category-tab categories="{{categories}}" activeId="{{activeCategory}}"
-                bind:change="onCategoryChange"></category-tab>
+  <view class="menu-body">
+    <!-- 左侧分类栏 -->
+    <category-tab class="menu-sidebar" categories="{{categories}}" activeId="{{activeCategory}}"
+                  mode="vertical" bind:change="onCategoryChange"></category-tab>
 
-  <!-- 骨架屏 -->
-  <skeleton type="card" count="{{5}}" wx:if="{{loading}}"></skeleton>
+    <!-- 右侧菜品列表 -->
+    <view class="menu-main">
+      <!-- 骨架屏 -->
+      <skeleton type="card" count="{{5}}" wx:if="{{loading}}"></skeleton>
 
-  <!-- 菜品列表 -->
-  <scroll-view class="menu-list" scroll-y wx:if="{{!loading}}">
-    <view class="menu-list__item" wx:for="{{filteredDishes}}" wx:key="_id">
-      <dish-card dish="{{item}}" showTags="{{true}}" showConflict="{{true}}"
-                 dietaryConflict="{{dietaryConflictMap[item._id]}}"
-                 bind:cardtap="onDishTap"></dish-card>
+      <scroll-view class="menu-list" scroll-y wx:if="{{!loading}}">
+        <view class="menu-list__item" wx:for="{{filteredDishes}}" wx:key="_id">
+          <dish-card dish="{{item}}" showTags="{{true}}" showConflict="{{true}}"
+                     showAdd="{{true}}" showFavorite="{{false}}"
+                     dietaryConflict="{{dietaryConflictMap[item._id]}}"
+                     bind:cardtap="onDishTap" bind:addtap="onAddToCart"></dish-card>
+        </view>
+      </scroll-view>
+
+      <!-- 空状态 -->
+      <empty-state title="暂无菜品" description="快去添加一道家传菜吧"
+                   actionText="添加菜品" wx:if="{{!loading && filteredDishes.length === 0}}"
+                   bind:action="onAddDish"></empty-state>
     </view>
-  </scroll-view>
+  </view>
 
-  <!-- 空状态 -->
-  <empty-state title="暂无菜品" description="快去添加一道家传菜吧"
-               actionText="添加菜品" wx:if="{{!loading && filteredDishes.length === 0}}"
-               bind:action="onAddDish"></empty-state>
+  <!-- 底部购物车栏 -->
+  <cart-bar class="menu-cart-bar" itemCount="{{cartCount}}" totalCostFen="{{cartTotalFen}}" buttonText="提交订单"
+            bind:submit="onSubmitOrder" bind:viewcart="onViewCart"></cart-bar>
 
   <!-- 添加菜品悬浮按钮 -->
   <view class="fab" hover-class="fab--hover" bind:tap="onAddDish">

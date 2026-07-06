@@ -1,5 +1,5 @@
 <!-- cart-bar.wxml -->
-<view class="cart-bar bottom-bar flex-row flex-between">
+<view class="cart-bar bottom-bar flex-row flex-between" style="{{barStyle}}">
   <view class="cart-bar__info flex-row" bindtap="onCartTap">
     <view class="cart-bar__icon-wrap">
       <text class="cart-bar__icon">🛒</text>

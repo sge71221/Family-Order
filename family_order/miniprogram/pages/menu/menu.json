@@ -6,6 +6,7 @@
     "dish-card": "/components/dish-card/dish-card",
     "empty-state": "/components/empty-state/empty-state",
     "skeleton": "/components/skeleton/skeleton",
-    "offline-banner": "/components/offline-banner/offline-banner"
+    "offline-banner": "/components/offline-banner/offline-banner",
+    "cart-bar": "/components/cart-bar/cart-bar"
   }
 }

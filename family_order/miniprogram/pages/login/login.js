@@ -102,9 +102,17 @@ Page({
         avatarUrl: avatarUrl,
       });
 
-      // 跳到下一步
-      this.setData({ step: 'join-family', loading: false });
       hideLoading();
+      this.setData({ loading: false });
+
+      // 如果已加入家庭，直接跳转菜单页
+      if (memberData.familyId) {
+        wx.switchTab({ url: '/pages/menu/menu' });
+        return;
+      }
+
+      // 未加入家庭，进入加入/创建家庭步骤
+      this.setData({ step: 'join-family' });
     } catch (err) {
       this.setData({ loading: false, errorMsg: err.message || '登录失败' });
       hideLoading();

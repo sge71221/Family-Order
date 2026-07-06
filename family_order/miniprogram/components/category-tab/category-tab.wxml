@@ -1,7 +1,7 @@
 <!-- category-tab.wxml -->
-<scroll-view class="category-tab-scroll" scroll-x enable-flex>
-  <view class="category-tab-list flex-row">
-    <view class="category-tab-item {{activeId === item.id ? 'category-tab-item--active' : ''}}"
+<scroll-view class="category-tab-scroll category-tab-scroll--{{mode}}" scroll-x="{{mode === 'horizontal'}}" scroll-y="{{mode === 'vertical'}}" enable-flex>
+  <view class="category-tab-list category-tab-list--{{mode}}">
+    <view class="category-tab-item category-tab-item--{{mode}} {{activeId === item.id ? 'category-tab-item--active' : ''}}"
           wx:for="{{categories}}" wx:key="id"
           data-id="{{item.id}}" bindtap="onTabTap">
       <text class="category-tab-item__name">{{item.name}}</text>

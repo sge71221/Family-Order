@@ -3,6 +3,7 @@ Component({
   properties: {
     categories: { type: Array, value: [] },
     activeId: { type: String, value: '' },
+    mode: { type: String, value: 'horizontal' },
   },
 
   methods: {

@@ -1,14 +1,18 @@
 // menu.js — 菜单页面（TabBar首页）
 const { DishService } = require('../../services/dish-service');
 const { DietaryService } = require('../../services/dietary-service');
+const { OrderService } = require('../../services/order-service');
 const { CATEGORIES } = require('../../data/categories');
-const { showLoading, hideLoading, showError, isOnline } = require('../../utils/network');
-const { formatMoney, fenToYuan } = require('../../utils/money');
+const { showLoading, hideLoading, showError, showToast, isOnline } = require('../../utils/network');
+const { fenToYuan } = require('../../utils/money');
+
+const ALL_CATEGORY = { id: 'all', name: '全部' };
+const MENU_CATEGORIES = [ALL_CATEGORY, ...CATEGORIES];
 
 Page({
   data: {
-    categories: CATEGORIES,
-    activeCategory: '',
+    categories: MENU_CATEGORIES,
+    activeCategory: ALL_CATEGORY.id,
     dishes: [],
     filteredDishes: [],
     keyword: '',
@@ -16,24 +20,27 @@ Page({
     loading: true,
     isOffline: false,
     dietaryConflictMap: {},
-    totalCount: 0,
-    totalCostFen: 0,
+    cartCount: 0,
+    cartTotalFen: 0,
+    cartTotalYuan: '0.00',
   },
 
   _dishService: null,
   _dietaryService: null,
+  _orderService: null,
   _watcher: null,
 
   onLoad() {
     this._dishService = new DishService();
     this._dietaryService = new DietaryService();
-    this.setData({ activeCategory: CATEGORIES[0].id });
+    this._orderService = new OrderService();
+    this.setData({ activeCategory: ALL_CATEGORY.id });
   },
 
   onShow() {
     this._loadDishes();
     this._checkNetwork();
-    this._updateCartBadge();
+    this._refreshCart();
   },
 
   onHide() {
@@ -79,7 +86,7 @@ Page({
 
   /** 按分类筛选 */
   _filterByCategory(dishes, categoryId) {
-    if (!categoryId) return dishes;
+    if (!categoryId || categoryId === ALL_CATEGORY.id) return dishes;
     return dishes.filter((d) => d.category === categoryId);
   },
 
@@ -151,9 +158,55 @@ Page({
     this._checkNetwork();
   },
 
-  /** 更新购物车徽标 */
-  _updateCartBadge() {
-    const cart = this._dishService ? getApp().cache.getCart(getApp().globalData.memberId) : [];
-    // 不在 TabBar 上显示徽标，由 cart-bar 组件处理
+  /** 刷新购物车信息 */
+  _refreshCart() {
+    if (!this._orderService) return;
+    const cart = this._orderService.getCart();
+    const cartItems = cart.map((c) => {
+      const dish = this.data.dishes.find((d) => d._id === c.dishId);
+      return {
+        ...c,
+        dishName: dish ? dish.name : '未知菜品',
+        priceFen: dish ? (dish.totalCost || 0) : 0,
+      };
+    });
+    const cartTotalFen = cartItems.reduce((sum, item) => sum + (item.priceFen || 0) * (item.quantity || 0), 0);
+    this.setData({
+      cartCount: cart.length,
+      cartTotalFen,
+      cartTotalYuan: fenToYuan(cartTotalFen),
+    });
+  },
+
+  /** 加入购物车 */
+  onAddToCart(e) {
+    const dishId = e.detail.dishId;
+    this._orderService.addToCart(dishId, 1);
+    this._refreshCart();
+    showToast('已加入购物车', 'success', 1000);
+  },
+
+  /** 查看购物车 */
+  onViewCart() {
+    wx.navigateTo({ url: '/pages/cart/cart' });
+  },
+
+  /** 提交订单 */
+  async onSubmitOrder() {
+    if (this.data.cartCount === 0) {
+      showToast('购物车为空', 'none');
+      return;
+    }
+    showLoading('提交订单...');
+    try {
+      await this._orderService.submitOrder();
+      hideLoading();
+      showToast('订单提交成功！', 'success');
+      this._refreshCart();
+      wx.navigateTo({ url: '/pages/order-summary/order-summary' });
+    } catch (err) {
+      hideLoading();
+      showError(err);
+    }
   },
 });

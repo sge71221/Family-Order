@@ -36,12 +36,6 @@
         "selectedIconPath": "assets/icons/menu-active.png"
       },
       {
-        "pagePath": "pages/order/order",
-        "text": "点餐",
-        "iconPath": "assets/icons/order.png",
-        "selectedIconPath": "assets/icons/order-active.png"
-      },
-      {
         "pagePath": "pages/purchase/purchase",
         "text": "采购",
         "iconPath": "assets/icons/purchase.png",

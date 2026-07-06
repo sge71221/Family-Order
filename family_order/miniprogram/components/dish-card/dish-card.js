@@ -7,6 +7,8 @@ Component({
     showConflict: { type: Boolean, value: false },
     dietaryConflict: { type: Object, value: null },
     compact: { type: Boolean, value: false },
+    showFavorite: { type: Boolean, value: true },
+    showAdd: { type: Boolean, value: false },
   },
 
   data: {
@@ -40,6 +42,10 @@ Component({
 
     onFavoriteTap() {
       this.triggerEvent('favoritetap', { dishId: this.data.dish._id });
+    },
+
+    onAddTap() {
+      this.triggerEvent('addtap', { dishId: this.data.dish._id, dish: this.data.dish });
     },
   },
 });

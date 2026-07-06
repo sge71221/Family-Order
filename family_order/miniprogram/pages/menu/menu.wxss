@@ -2,11 +2,38 @@
 @import '../../styles/mixins.wxss';
 
 .menu-page {
-  padding-bottom: calc(var(--tab-bar-height) + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  box-sizing: border-box;
+  padding-bottom: calc(var(--tab-bar-height) + var(--bottom-bar-height) + env(safe-area-inset-bottom));
+}
+
+.menu-body {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  overflow: hidden;
+}
+
+.menu-sidebar {
+  width: 160rpx;
+  flex-shrink: 0;
+  height: 100%;
+  border-right: 1rpx solid var(--color-divider);
+}
+
+.menu-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
 }
 
 .menu-list {
-  height: calc(100vh - var(--tab-bar-height) - 200px - env(safe-area-inset-bottom));
+  flex: 1;
+  height: 100%;
   padding: var(--spacing-xs) var(--spacing-sm);
 }
 
@@ -18,7 +45,7 @@
 .fab {
   position: fixed;
   right: var(--spacing-sm);
-  bottom: calc(var(--tab-bar-height) + 56px + env(safe-area-inset-bottom));
+  bottom: calc(var(--tab-bar-height) + var(--bottom-bar-height) + 16px + env(safe-area-inset-bottom));
   width: 52px;
   height: 52px;
   border-radius: 50%;
@@ -42,3 +69,5 @@
   font-weight: var(--font-weight-bold);
   line-height: 1;
 }
+
+/* 底部购物车栏 — 位置由 cart-bar 组件内部动态计算（根据设备安全区域和 tabBar 高度） */

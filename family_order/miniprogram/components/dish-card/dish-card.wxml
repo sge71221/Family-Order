@@ -35,7 +35,12 @@
   </view>
 
   <!-- 收藏按钮 -->
-  <view class="dish-card__fav" bindtap="onFavoriteTap" wx:if="{{!compact}}">
+  <view class="dish-card__fav" bindtap="onFavoriteTap" wx:if="{{!compact && showFavorite}}">
     <text class="fav-icon">{{dish.isFavorite ? '♥' : '♡'}}</text>
+  </view>
+
+  <!-- 加入购物车按钮 -->
+  <view class="dish-card__add" catchtap="onAddTap" wx:if="{{showAdd}}">
+    <text class="add-icon">+</text>
   </view>
 </view>
