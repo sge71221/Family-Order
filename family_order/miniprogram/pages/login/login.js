@@ -98,7 +98,7 @@ Page({
       const adapter = new CloudAdapter();
       await adapter.update(DB_COLLECTIONS.MEMBER, memberData.memberId, {
         nickname: this.data.nickname.trim(),
-        identity: this.data.selectedIdentity || 'other',
+        identity: this.data.selectedIdentity || 'dad',
         avatarUrl: avatarUrl,
       });
 
@@ -198,7 +198,7 @@ Page({
       await authService.joinFamily(
         this.data.familyCode,
         this.data.nickname.trim(),
-        this.data.selectedIdentity || 'other',
+        this.data.selectedIdentity || 'dad',
         avatarUrl,
       );
 

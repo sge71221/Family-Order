@@ -15,7 +15,7 @@ const db = cloud.database();
  * @param {Object} event
  * @param {string} event.familyCode - 6位家庭码
  * @param {string} event.nickname - 昵称（≤10字）
- * @param {string} event.identity - 身份（爸爸/妈妈/孩子/长辈/其他）
+ * @param {string} event.identity - 身份（爸爸/妈妈/宝宝/长辈/大厨/吃货）
  * @param {string} event.avatarUrl - 头像URL
  * @returns {Object} { code, data: { familyId, familyName, role }, message }
  */
@@ -69,7 +69,7 @@ exports.main = async (event) => {
       data: {
         familyId: familyId,
         nickname: event.nickname.trim(),
-        identity: event.identity || 'other',
+        identity: event.identity || 'dad',
         avatarUrl: event.avatarUrl || '',
         role: 'member',
       },

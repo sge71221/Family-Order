@@ -61,9 +61,10 @@ const DISLIKE_LEVEL_CONFIG = {
 const MEMBER_IDENTITY = [
   { id: 'dad', name: '爸爸', icon: 'dad', defaultAvatarIndex: 0 },
   { id: 'mom', name: '妈妈', icon: 'mom', defaultAvatarIndex: 1 },
-  { id: 'child', name: '孩子', icon: 'child', defaultAvatarIndex: 2 },
+  { id: 'baby', name: '宝宝', icon: 'baby', defaultAvatarIndex: 2 },
   { id: 'elder', name: '长辈', icon: 'elder', defaultAvatarIndex: 3 },
-  { id: 'other', name: '其他', icon: 'other', defaultAvatarIndex: 4 },
+  { id: 'chef', name: '大厨', icon: 'chef', defaultAvatarIndex: 4 },
+  { id: 'foodie', name: '吃货', icon: 'foodie', defaultAvatarIndex: 5 },
 ];
 
 const IDENTITY_MAP = {};
