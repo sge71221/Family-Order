@@ -120,6 +120,7 @@
   justify-content: center;
   flex-shrink: 0;
   margin-left: var(--spacing-xs);
+  align-self: flex-end;
   box-shadow: var(--shadow-card-hover);
 }
 

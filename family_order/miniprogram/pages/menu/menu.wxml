@@ -3,11 +3,16 @@
   <!-- 离线提示 -->
   <offline-banner isOffline="{{isOffline}}" bind:retry="onNetworkRetry"></offline-banner>
 
-  <!-- 搜索栏 -->
-  <search-bar placeholder="搜索菜品..." value="{{keyword}}"
-              historyList="{{searchHistory}}"
-              bind:input="onSearchInput" bind:search="onSearch"
-              bind:clear="onSearchClear" bind:clearhistory="onClearHistory"></search-bar>
+  <!-- 搜索栏 + 添加按钮 -->
+  <view class="search-row">
+    <search-bar class="search-row__input" placeholder="搜索菜品..." value="{{keyword}}"
+                historyList="{{searchHistory}}"
+                bind:input="onSearchInput" bind:search="onSearch"
+                bind:clear="onSearchClear" bind:clearhistory="onClearHistory"></search-bar>
+    <view class="add-btn" hover-class="add-btn--hover" bind:tap="onAddDish">
+      <view class="add-btn__icon">+</view>
+    </view>
+  </view>
 
   <view class="menu-body">
     <!-- 左侧分类栏 -->
@@ -38,9 +43,4 @@
   <!-- 底部购物车栏 -->
   <cart-bar class="menu-cart-bar" itemCount="{{cartCount}}" totalCostFen="{{cartTotalFen}}" buttonText="提交订单"
             bind:submit="onSubmitOrder" bind:viewcart="onViewCart"></cart-bar>
-
-  <!-- 添加菜品悬浮按钮 -->
-  <view class="fab" hover-class="fab--hover" bind:tap="onAddDish">
-    <view class="fab__icon">+</view>
-  </view>
 </view>

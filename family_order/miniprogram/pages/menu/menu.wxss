@@ -6,7 +6,7 @@
   flex-direction: column;
   height: 100vh;
   box-sizing: border-box;
-  padding-bottom: calc(var(--tab-bar-height) + var(--bottom-bar-height) + env(safe-area-inset-bottom));
+  padding-bottom: calc(var(--tab-bar-height) + env(safe-area-inset-bottom));
 }
 
 .menu-body {
@@ -34,20 +34,31 @@
 .menu-list {
   flex: 1;
   height: 100%;
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm) calc(var(--spacing-xs) + var(--bottom-bar-height));
 }
 
 .menu-list__item {
   margin-bottom: var(--spacing-xs);
 }
 
-/* 悬浮添加按钮 */
-.fab {
-  position: fixed;
-  right: var(--spacing-sm);
-  bottom: calc(var(--tab-bar-height) + var(--bottom-bar-height) + 16px + env(safe-area-inset-bottom));
-  width: 52px;
-  height: 52px;
+/* 搜索栏行 */
+.search-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-xs);
+  gap: var(--spacing-xs);
+}
+
+.search-row__input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 添加按钮 */
+.add-btn {
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: var(--color-primary);
   color: #fff;
@@ -55,17 +66,18 @@
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow-card-hover);
-  z-index: var(--z-fixed);
   transition: transform var(--transition-fast), background var(--transition-fast);
+  flex-shrink: 0;
+  margin-right: 0;
 }
 
-.fab--hover {
+.add-btn--hover {
   transform: scale(0.92);
   background: var(--color-primary-deep);
 }
 
-.fab__icon {
-  font-size: 28px;
+.add-btn__icon {
+  font-size: 24px;
   font-weight: var(--font-weight-bold);
   line-height: 1;
 }
