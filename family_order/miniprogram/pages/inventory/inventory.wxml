@@ -29,7 +29,7 @@
       <text class="inventory-category__title">{{catName}}</text>
       <ingredient-item wx:for="{{item}}" wx:for-item="ing" wx:key="_id"
                        ingredient="{{ing}}" showPrice="{{true}}" showStock="{{true}}" showExpiry="{{true}}" editable="{{true}}"
-                       bind:edit="onEditTap"></ingredient-item>
+                       bind:edit="onEditTap" bind:usedup="onMarkUsedUp"></ingredient-item>
     </view>
   </view>
 

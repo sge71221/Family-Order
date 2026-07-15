@@ -84,6 +84,7 @@ const DB_COLLECTIONS = {
   ORDER: 'Order',
   RATING: 'Rating',
   WEEKLY_MENU: 'WeeklyMenu',
+  PURCHASE_RECORD: 'PurchaseRecord',
 };
 
 /** 云函数名称 */

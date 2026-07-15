@@ -29,6 +29,7 @@
           <dish-card dish="{{item}}" showTags="{{true}}" showConflict="{{true}}"
                      showAdd="{{true}}" showFavorite="{{false}}"
                      dietaryConflict="{{dietaryConflictMap[item._id]}}"
+                     stockWarning="{{stockWarningMap[item._id]}}"
                      bind:cardtap="onDishTap" bind:addtap="onAddToCart"></dish-card>
         </view>
       </scroll-view>

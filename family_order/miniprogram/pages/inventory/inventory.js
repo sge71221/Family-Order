@@ -91,6 +91,27 @@ Page({
     wx.navigateTo({ url: `/pages/ingredient-edit/ingredient-edit?ingredientId=${id}` });
   },
 
+  onMarkUsedUp(e) {
+    const id = e.detail.ingredientId;
+    wx.showModal({
+      title: '标记已用完',
+      content: '确定将此食材标记为已用完？库存将设为0。',
+      success: async (res) => {
+        if (res.confirm) {
+          try {
+            await this._ingredientService.updateIngredient(id, {
+              stockQuantity: 0,
+              stockUpdatedAt: new Date(),
+            });
+            this._loadIngredients();
+          } catch (err) {
+            showError(err);
+          }
+        }
+      },
+    });
+  },
+
   onAddIngredient() {
     wx.navigateTo({ url: '/pages/ingredient-edit/ingredient-edit' });
   },

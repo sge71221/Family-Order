@@ -44,14 +44,23 @@ Component({
         ctx.lineTo(w - 10, h - 30);
         ctx.stroke();
 
-        // 绘制柱状
+        // 绘制圆顶柱状
         data.forEach((item, index) => {
           const barH = ((item.value || 0) / maxVal) * (h - 50);
           const x = startX + index * (barWidth + 8);
           const y = h - 30 - barH;
+          const r = 4;
 
           ctx.setFillStyle(this.data.barColor);
-          ctx.fillRect(x, y, barWidth, barH);
+          ctx.beginPath();
+          ctx.moveTo(x, y + barH);
+          ctx.lineTo(x + barWidth, y + barH);
+          ctx.lineTo(x + barWidth, y + r);
+          ctx.quadraticCurveTo(x + barWidth, y, x + barWidth - r, y);
+          ctx.lineTo(x + r, y);
+          ctx.quadraticCurveTo(x, y, x, y + r);
+          ctx.closePath();
+          ctx.fill();
 
           // 标签
           ctx.setFillStyle('#6B5B47');

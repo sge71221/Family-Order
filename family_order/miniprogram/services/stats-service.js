@@ -1,6 +1,6 @@
 /**
  * stats-service.js — 统计服务
- * 月度汇总、日趋势、菜品排行、订单成本明细
+ * 月度汇总（采购支出）、日趋势、菜品排行
  */
 const { CloudAdapter } = require('./cloud-adapter');
 const { DB_COLLECTIONS } = require('../utils/constants');
@@ -13,9 +13,10 @@ class StatsService {
   }
 
   /**
-   * 获取月度汇总数据
-   * @param {string} month - YYYY-MM 格式月份
-   * @returns {Promise<Object>} { totalCost, orderCount, dishCount, avgCostPerDay }
+   * 获取月度汇总
+   * 花费只来自采购记录（PurchaseRecord），点餐次数来自订单（Order）
+   * @param {string} month - YYYY-MM
+   * @returns {Promise<Object>}
    */
   async getMonthlySummary(month) {
     try {
@@ -23,23 +24,30 @@ class StatsService {
       const familyId = app.globalData.familyId;
       if (!familyId) return this._emptySummary();
 
-      // 计算月份起止日期
       const monthStart = month ? `${month}-01` : getMonthStart();
       const monthEnd = month ? `${month}-31` : getMonthEnd();
-
       const cmd = this.adapter.getCmd();
+
+      // 1. 采购支出（实际买菜花费）
+      let purchaseCostFen = 0;
+      let purchaseDays = 0;
+      try {
+        const purchaseRecords = await this.adapter.query(DB_COLLECTIONS.PURCHASE_RECORD, {
+          familyId,
+          date: cmd.gte(monthStart).and(cmd.lte(monthEnd)),
+        });
+        purchaseCostFen = purchaseRecords.reduce((sum, r) => sum + (r.totalCost || 0), 0);
+        purchaseDays = new Set(purchaseRecords.map((r) => r.date)).size;
+      } catch (e) {
+        console.warn('[StatsService] 采购记录查询失败:', e.message);
+      }
+
+      // 2. 订单次数（仅统计次数，不计金额）
       const orders = await this.adapter.query(DB_COLLECTIONS.ORDER, {
         familyId,
         date: cmd.gte(monthStart).and(cmd.lte(monthEnd)),
-        status: cmd.neq('ordering'),  // 排除进行中
-      }, {
-        orderBy: [{ field: 'date', direction: 'asc' }],
+        status: cmd.neq('ordering'),
       });
-
-      if (orders.length === 0) return this._emptySummary();
-
-      // 统计汇总
-      const totalCostFen = orders.reduce((sum, order) => sum + (order.totalCost || 0), 0);
       const orderCount = orders.length;
 
       // 汇总菜品数
@@ -48,13 +56,12 @@ class StatsService {
         (order.items || []).forEach((item) => dishSet.add(item.dishId));
       });
 
-      // 计算日均
-      const days = new Set(orders.map((o) => o.date)).size;
-      const avgCostPerDayFen = days > 0 ? Math.round(totalCostFen / days) : 0;
+      const days = purchaseDays || 1;
+      const avgCostPerDayFen = days > 0 ? Math.round(purchaseCostFen / days) : 0;
 
       return {
-        totalCostFen,
-        totalCostYuan: fenToYuan(totalCostFen),
+        totalCostFen: purchaseCostFen,
+        totalCostYuan: fenToYuan(purchaseCostFen),
         orderCount,
         dishCount: dishSet.size,
         avgCostPerDayFen,
@@ -69,9 +76,7 @@ class StatsService {
   }
 
   /**
-   * 获取日消费趋势
-   * @param {string} month - YYYY-MM
-   * @returns {Promise<Array>} [{ date, costFen, costYuan, orderCount }]
+   * 获取日消费趋势（只统计采购支出）
    */
   async getDailyTrend(month) {
     try {
@@ -81,31 +86,35 @@ class StatsService {
 
       const monthStart = month ? `${month}-01` : getMonthStart();
       const monthEnd = month ? `${month}-31` : getMonthEnd();
-
       const cmd = this.adapter.getCmd();
-      const orders = await this.adapter.query(DB_COLLECTIONS.ORDER, {
-        familyId,
-        date: cmd.gte(monthStart).and(cmd.lte(monthEnd)),
-        status: cmd.neq('ordering'),
-      }, {
-        orderBy: [{ field: 'date', direction: 'asc' }],
-      });
 
-      // 按日期分组汇总
-      const dailyMap = {};
-      orders.forEach((order) => {
-        const date = order.date;
-        if (!dailyMap[date]) {
-          dailyMap[date] = { date, costFen: 0, orderCount: 0 };
-        }
-        dailyMap[date].costFen += order.totalCost || 0;
-        dailyMap[date].orderCount += 1;
-      });
+      try {
+        const purchaseRecords = await this.adapter.query(DB_COLLECTIONS.PURCHASE_RECORD, {
+          familyId,
+          date: cmd.gte(monthStart).and(cmd.lte(monthEnd)),
+        }, {
+          orderBy: [{ field: 'date', direction: 'asc' }],
+        });
 
-      return Object.values(dailyMap).map((d) => ({
-        ...d,
-        costYuan: fenToYuan(d.costFen),
-      }));
+        // 按日期汇总
+        const dailyMap = {};
+        purchaseRecords.forEach((r) => {
+          const date = r.date;
+          if (!dailyMap[date]) {
+            dailyMap[date] = { date, costFen: 0, orderCount: 0 };
+          }
+          dailyMap[date].costFen += r.totalCost || 0;
+          dailyMap[date].orderCount += 1;
+        });
+
+        return Object.values(dailyMap).map((d) => ({
+          ...d,
+          costYuan: fenToYuan(d.costFen),
+        }));
+      } catch (e) {
+        console.warn('[StatsService] 日趋势查询失败:', e.message);
+        return [];
+      }
     } catch (err) {
       console.error('[StatsService] getDailyTrend失败:', err);
       return [];
@@ -114,8 +123,6 @@ class StatsService {
 
   /**
    * 获取菜品排行榜
-   * @param {number} limit - 排行数量，默认10
-   * @returns {Promise<Array>} [{ dishId, dishName, orderCount, totalCostFen, totalCostYuan }]
    */
   async getTopDishes(limit = 10) {
     try {
@@ -129,7 +136,6 @@ class StatsService {
         status: cmd.neq('ordering'),
       });
 
-      // 汇总菜品排行
       const dishStatsMap = {};
       orders.forEach((order) => {
         (order.items || []).forEach((item) => {
@@ -142,18 +148,17 @@ class StatsService {
             };
           }
           dishStatsMap[item.dishId].orderCount += item.quantity || 1;
-          dishStatsMap[item.dishId].totalCostFen += (item.quantity || 1) * (item.costPerDish || 0);
+          // 不再统计金额
         });
       });
 
-      // 排序并截取
       const sorted = Object.values(dishStatsMap)
         .sort((a, b) => b.orderCount - a.orderCount)
         .slice(0, limit);
 
       return sorted.map((d) => ({
         ...d,
-        totalCostYuan: fenToYuan(d.totalCostFen),
+        totalCostYuan: '0.00',
       }));
     } catch (err) {
       console.error('[StatsService] getTopDishes失败:', err);
@@ -161,39 +166,6 @@ class StatsService {
     }
   }
 
-  /**
-   * 获取订单成本明细
-   * @param {string} orderId
-   * @returns {Promise<Object>} 订单成本详情
-   */
-  async getOrderCostDetail(orderId) {
-    try {
-      const order = await this.adapter.getOne(DB_COLLECTIONS.ORDER, orderId);
-      if (!order) return null;
-
-      return {
-        orderId: order._id,
-        date: order.date,
-        status: order.status,
-        totalCostFen: order.totalCost || 0,
-        totalCostYuan: fenToYuan(order.totalCost || 0),
-        items: (order.items || []).map((item) => ({
-          ...item,
-          costYuan: fenToYuan(item.costPerDish || 0),
-        })),
-        costBreakdown: (order.costBreakdown || []).map((b) => ({
-          ...b,
-          costPerDishYuan: fenToYuan(b.costPerDish || 0),
-          totalCostYuan: fenToYuan(b.totalCost || 0),
-        })),
-      };
-    } catch (err) {
-      console.error('[StatsService] getOrderCostDetail失败:', err);
-      return null;
-    }
-  }
-
-  /** 空汇总数据模板 */
   _emptySummary() {
     return {
       totalCostFen: 0,

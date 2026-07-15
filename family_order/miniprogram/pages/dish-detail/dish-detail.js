@@ -18,6 +18,7 @@ Page({
     loading: true,
     quantity: 1,
     notes: '',
+    isAdmin: false,
   },
 
   _dishService: null,
@@ -31,6 +32,11 @@ Page({
     this._dishService = new DishService();
     this._dietaryService = new DietaryService();
     this._orderService = new OrderService();
+
+    // 判断是否为管理员（可以从 globalData 获取角色）
+    const app = getApp();
+    const role = app.globalData.role || '';
+    this.setData({ isAdmin: role === 'admin' });
 
     if (dishId) {
       this._loadDishDetail(dishId);

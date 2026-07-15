@@ -1,81 +1,79 @@
-// purchase.js — 采购清单页面（TabBar第三页）
-const { PurchaseService } = require('../../services/purchase-service');
-const { OrderService } = require('../../services/order-service');
-const { fenToYuan, formatMoney } = require('../../utils/money');
-const { getUnitName, formatQuantityUnit } = require('../../utils/unit');
-const { INGREDIENT_CATEGORIES, INGREDIENT_CATEGORY_MAP } = require('../../data/units');
-const { showLoading, hideLoading, showError, showToast } = require('../../utils/network');
+// purchase.js — 采购记录页面（TabBar第三页）
+const { PurchaseService, PurchaseRecordService } = require('../../services/purchase-service');
+const { fenToYuan } = require('../../utils/money');
+const { showLoading, hideLoading, showError } = require('../../utils/network');
+
+// 分类颜色映射
+const CAT_COLORS = {
+  meat: '#E07856',
+  vegetable: '#4CAF50',
+  seasoning: '#FFC107',
+  fruit: '#F4A261',
+  seafood: '#2196F3',
+  dairy: '#9C27B0',
+  grain: '#8D6E63',
+  oil: '#FF9800',
+  drink: '#00BCD4',
+  other: '#9E9E9E',
+};
 
 Page({
   data: {
-    purchaseList: [],
-    categorizedList: {},
-    totalEstimatedCostFen: 0,
-    totalEstimatedCostYuan: '',
-    checkedCount: 0,
-    totalCount: 0,
+    currentMonth: '',
+    dailyGroups: [], // [{ date, records: [...], totalYuan }]
+    monthlyTotal: '0.00',
+    weeklyTotal: '0.00',
+    recordCount: 0,
     loading: true,
-    hasOrder: false,
-    orderId: '',
   },
 
-  _purchaseService: null,
-  _orderService: null,
+  _purchaseRecordService: null,
 
   onLoad() {
-    this._purchaseService = new PurchaseService();
-    this._orderService = new OrderService();
+    this._purchaseRecordService = new PurchaseRecordService();
+    const now = new Date();
+    const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    this.setData({ currentMonth: month });
   },
 
   onShow() {
-    this._generateList();
+    this._loadRecords();
   },
 
-  async _generateList() {
+  async _loadRecords() {
     this.setData({ loading: true });
-    showLoading('生成采购清单...');
+    showLoading('加载采购记录...');
 
     try {
-      const order = await this._orderService.getTodayOrder();
-      if (!order) {
-        this.setData({ loading: false, hasOrder: false, purchaseList: [] });
-        hideLoading();
-        return;
-      }
+      const records = await this._purchaseRecordService.getRecordsByMonth(this.data.currentMonth);
+      const summary = await this._purchaseRecordService.getMonthSummary(records);
 
-      const list = await this._purchaseService.generatePurchaseList(order._id);
-
-      // 格式化展示
-      const formatted = list.map((item) => ({
-        ...item,
-        purchaseQtyStr: formatQuantityUnit(item.purchaseQuantity, item.unit),
-        estimatedCostYuan: fenToYuan(item.estimatedCost || 0),
-      }));
-
-      // 为每个条目附加原始索引，供 WXML data-index 使用
-      formatted.forEach((item, index) => {
-        item._originalIndex = index;
+      // 按日期分组，转为数组格式
+      const dayMap = {};
+      records.forEach((r) => {
+        const dayKey = r.date.substring(0, 10);
+        if (!dayMap[dayKey]) dayMap[dayKey] = [];
+        dayMap[dayKey].push(r);
       });
 
-      // 按分类分组
-      const categorized = {};
-      formatted.forEach((item) => {
-        const cat = INGREDIENT_CATEGORY_MAP[item.category] || '其他';
-        if (!categorized[cat]) categorized[cat] = [];
-        categorized[cat].push(item);
+      const dailyGroups = Object.keys(dayMap).sort().reverse().map((date) => {
+        const dayRecords = dayMap[date];
+        const totalFen = dayRecords.reduce((s, r) => s + (r.totalCost || 0), 0);
+        return {
+          date,
+          records: dayRecords.map((r) => ({
+            ...r,
+            dotColor: CAT_COLORS[r.category] || '#9E9E9E',
+          })),
+          totalYuan: fenToYuan(totalFen),
+        };
       });
-
-      const totalCost = formatted.reduce((sum, item) => sum + (item.estimatedCost || 0), 0);
 
       this.setData({
-        purchaseList: formatted,
-        categorizedList: categorized,
-        totalEstimatedCostFen: totalCost,
-        totalEstimatedCostYuan: fenToYuan(totalCost),
-        hasOrder: true,
-        orderId: order._id,
-        totalCount: formatted.length,
-        checkedCount: 0,
+        dailyGroups,
+        monthlyTotal: summary.monthlyTotal,
+        weeklyTotal: summary.weeklyTotal,
+        recordCount: summary.recordCount,
         loading: false,
       });
 
@@ -87,32 +85,13 @@ Page({
     }
   },
 
-  onItemCheck(e) {
-    const index = e.currentTarget.dataset.index;
-    const list = [...this.data.purchaseList];
-    list[index].isChecked = !list[index].isChecked;
-    const checkedCount = list.filter((i) => i.isChecked).length;
-    this.setData({ purchaseList: list, checkedCount });
-    this._updateCategorizedList(list);
+  onMonthChange(e) {
+    this.setData({ currentMonth: e.detail.value });
+    this._loadRecords();
   },
 
-  _updateCategorizedList(list) {
-    const categorized = {};
-    list.forEach((item) => {
-      const cat = INGREDIENT_CATEGORY_MAP[item.category] || '其他';
-      if (!categorized[cat]) categorized[cat] = [];
-      categorized[cat].push(item);
-    });
-    this.setData({ categorizedList: categorized });
-  },
-
-  onCopyText() {
-    const text = this._purchaseService.exportPurchaseList(this.data.purchaseList);
-    this._purchaseService.copyPurchaseText(text);
-  },
-
-  onShare() {
-    return this._purchaseService.sharePurchaseList(this.data.purchaseList);
+  onAddRecord() {
+    wx.navigateTo({ url: '/pages/add-record/add-record' });
   },
 
   onGoInventory() {

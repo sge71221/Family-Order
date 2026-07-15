@@ -14,6 +14,7 @@ Component({
     priceYuan: '',
     stockText: '',
     expiryText: '',
+    usedUp: false,
   },
 
   observers: {
@@ -23,10 +24,12 @@ Component({
         const { getUnitName, formatQuantityUnit } = require('../../utils/unit');
         const { formatFriendlyDate, isExpired } = require('../../utils/date');
 
+        const stockQty = ing.stockQuantity || 0;
         this.setData({
           priceYuan: fenToYuan(ing.pricePerUnit || 0),
-          stockText: formatQuantityUnit(ing.stockQuantity || 0, ing.unit || 'g'),
+          stockText: formatQuantityUnit(stockQty, ing.unit || 'g'),
           expiryText: ing.expiryDate ? (isExpired(ing.expiryDate) ? '已过期' : formatFriendlyDate(ing.expiryDate)) : '',
+          usedUp: stockQty <= 0,
         });
       }
     },
@@ -39,6 +42,10 @@ Component({
 
     onEditTap() {
       this.triggerEvent('edit', { ingredientId: this.data.ingredient._id });
+    },
+
+    onUsedUpTap() {
+      this.triggerEvent('usedup', { ingredientId: this.data.ingredient._id });
     },
   },
 });

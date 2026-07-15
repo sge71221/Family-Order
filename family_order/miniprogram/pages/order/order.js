@@ -20,6 +20,7 @@ Page({
     keyword: '',
     loading: true,
     dietaryConflictMap: {},
+    stockWarningMap: {},
   },
 
   _dishService: null,
@@ -53,10 +54,14 @@ Page({
           }
         });
       }
+      // 食材库存检测
+      const stockWarningMap = await this._dishService.checkStockForDishes(dishes);
+
       this.setData({
         dishes,
         filteredDishes: this._filterByCategory(dishes, this.data.activeCategory),
         dietaryConflictMap: conflictMap,
+        stockWarningMap: stockWarningMap,
         loading: false,
       });
     } catch (err) {

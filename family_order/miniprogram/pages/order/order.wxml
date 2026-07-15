@@ -9,6 +9,7 @@
     <view wx:for="{{filteredDishes}}" wx:key="_id">
       <dish-card dish="{{item}}" compact="{{true}}" showConflict="{{true}}"
                  dietaryConflict="{{dietaryConflictMap[item._id]}}"
+                 stockWarning="{{stockWarningMap[item._id]}}"
                  bind:cardtap="onAddToCart"></dish-card>
     </view>
   </scroll-view>

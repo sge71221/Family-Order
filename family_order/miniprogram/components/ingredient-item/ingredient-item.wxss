@@ -7,6 +7,10 @@
   border-bottom: 1rpx solid var(--color-divider);
 }
 
+.ingredient-item--used-up {
+  opacity: 0.5;
+}
+
 .ingredient-item__check {
   width: 24px;
   display: flex;
@@ -24,10 +28,24 @@
   gap: 4rpx;
 }
 
+.ingredient-item__name-row {
+  align-items: center;
+  gap: 8px;
+}
+
 .ingredient-item__name {
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-medium);
   color: var(--color-on-surface);
+}
+
+.used-up-tag {
+  font-size: 10px;
+  color: #fff;
+  background-color: var(--color-error);
+  border-radius: 4px;
+  padding: 1px 6px;
+  flex-shrink: 0;
 }
 
 .ingredient-item__meta {
@@ -48,11 +66,25 @@
   font-size: var(--font-size-caption);
 }
 
-.ingredient-item__action {
+.ingredient-item__actions {
   flex-shrink: 0;
+  gap: 8px;
+}
+
+.ingredient-item__action {
+  padding: 4px 0;
 }
 
 .action-text {
   font-size: var(--font-size-caption);
   color: var(--color-primary);
+}
+
+.action-text--danger {
+  font-size: var(--font-size-caption);
+  color: var(--color-error);
+}
+
+.used-up-btn {
+  padding: 4px 0;
 }

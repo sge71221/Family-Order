@@ -14,6 +14,7 @@
     "pages/profile/profile",
     "pages/family-manage/family-manage",
     "pages/dietary/dietary",
+    "pages/add-record/add-record",
     "pages/stats/stats"
   ],
   "window": {

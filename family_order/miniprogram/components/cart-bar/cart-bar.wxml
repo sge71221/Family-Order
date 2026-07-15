@@ -5,10 +5,7 @@
       <text class="cart-bar__icon">🛒</text>
       <view class="badge" wx:if="{{itemCount > 0}}">{{itemCount}}</view>
     </view>
-    <view class="cart-bar__cost">
-      <text class="cart-bar__cost-label">合计：</text>
-      <text class="cart-bar__cost-value">¥{{displayCost}}</text>
-    </view>
+    <text class="cart-bar__count" wx:if="{{itemCount > 0}}">{{itemCount}}道菜</text>
   </view>
   <button class="btn-primary cart-bar__btn {{disabled ? 'disabled' : ''}}" bindtap="onSubmitTap">
     {{buttonText}}

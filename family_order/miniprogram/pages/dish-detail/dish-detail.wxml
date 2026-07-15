@@ -19,7 +19,6 @@
         <text class="dish-detail__time" wx:if="{{dish.cookTime}}">{{dish.cookTime}}分钟</text>
       </view>
       <tag-pill tags="{{dish.tags}}" type="normal"></tag-pill>
-      <text class="dish-detail__cost" wx:if="{{costYuan}}">预估成本: ¥{{costYuan}}</text>
     </view>
 
     <!-- 忌口提示 -->
@@ -76,7 +75,7 @@
     </view>
 
     <!-- 编辑按钮 -->
-    <view class="dish-detail__edit" wx:if="{{isAdmin}}" bindtap="onEditDish">
+    <view class="dish-detail__edit" bindtap="onEditDish">
       <text class="edit-text">编辑菜品</text>
     </view>
   </view>

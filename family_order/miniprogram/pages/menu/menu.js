@@ -20,6 +20,7 @@ Page({
     loading: true,
     isOffline: false,
     dietaryConflictMap: {},
+    stockWarningMap: {},
     cartCount: 0,
     cartTotalFen: 0,
     cartTotalYuan: '0.00',
@@ -71,10 +72,14 @@ Page({
         });
       }
 
+      // 食材库存检测
+      const stockWarningMap = await this._dishService.checkStockForDishes(dishes);
+
       this.setData({
         dishes: dishes,
         filteredDishes: this._filterByCategory(dishes, this.data.activeCategory),
         dietaryConflictMap: conflictMap,
+        stockWarningMap: stockWarningMap,
         loading: false,
       });
     } catch (err) {
@@ -181,6 +186,7 @@ Page({
   /** 加入购物车 */
   onAddToCart(e) {
     const dishId = e.detail.dishId;
+    // 二次确认库存（组件已拦截无库存的情况）
     this._orderService.addToCart(dishId, 1);
     this._refreshCart();
     showToast('已加入购物车', 'success', 1000);

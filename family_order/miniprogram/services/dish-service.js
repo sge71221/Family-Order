@@ -304,6 +304,78 @@ class DishService {
       throw err;
     }
   }
+
+  /**
+   * 批量检查菜品食材库存是否充足
+   * 按名字汇总所有同名食材的库存，只要总和>0就算有库存
+   * @param {Array} dishes - 菜品列表
+   * @returns {Promise<Object>} { [dishId]: { hasStock, missingIngredients } }
+   */
+  async checkStockForDishes(dishes) {
+    try {
+      if (!dishes || dishes.length === 0) return {};
+
+      // 加载所有食材库存
+      const allIngredients = await this._ingredientService.getIngredientList();
+
+      // 按名字汇总库存：所有同名食材的库存相加
+      const nameStockMap = {};
+      allIngredients.forEach((ing) => {
+        const name = ing.name;
+        if (!name) return;
+        if (!nameStockMap[name]) nameStockMap[name] = 0;
+        nameStockMap[name] += (ing.stockQuantity || 0);
+      });
+
+      // 按 ID 查库存（兼容菜品关联了 ingredientId 的情况）
+      const idStockMap = {};
+      allIngredients.forEach((ing) => {
+        if (ing._id) idStockMap[ing._id] = (ing.stockQuantity || 0);
+      });
+
+      const result = {};
+      for (const dish of dishes) {
+        const dishIngredients = dish.ingredients || [];
+        const missing = [];
+
+        for (const ing of dishIngredients) {
+          // 先用 ID 查，如果查不到或库存<=0，再用名字汇总查
+          let stockQty = 0;
+          let found = false;
+
+          // 先按 ingredientId 查（如果菜品关联了具体食材ID）
+          if (ing.ingredientId && idStockMap[ing.ingredientId] !== undefined) {
+            stockQty = idStockMap[ing.ingredientId];
+            found = true;
+          }
+
+          // 如果没找到或库存<=0，按名字汇总查（所有同名食材的库存总和）
+          if (!found || stockQty <= 0) {
+            if (ing.name && nameStockMap[ing.name] !== undefined) {
+              stockQty = nameStockMap[ing.name];
+              found = true;
+            }
+          }
+
+          // 如果找不到该食材，或者库存总和<=0，标记为缺失
+          if (!found || stockQty <= 0) {
+            missing.push(ing.name || '未知食材');
+          }
+        }
+
+        result[dish._id] = {
+          hasStock: missing.length === 0,
+          missingIngredients: missing,
+        };
+      }
+
+      console.log('[checkStockForDishes] 结果:', result);
+      return result;
+    } catch (err) {
+      console.error('[DishService] checkStockForDishes失败:', err);
+      return {};
+    }
+  }
 }
 
 module.exports = { DishService };

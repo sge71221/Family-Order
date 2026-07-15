@@ -6,14 +6,12 @@
     <!-- 状态头部 -->
     <view class="summary-header card-surface">
       <text class="summary-header__status">{{statusLabel}}</text>
-      <text class="summary-header__total">总计: ¥{{totalCostYuan}}</text>
     </view>
 
     <!-- 按成员分组 -->
     <view class="member-group" wx:for="{{itemsByMember}}" wx:key="memberId" wx:for-item="group">
       <view class="member-group__header flex-row">
         <text class="member-group__name">{{group.memberName}}</text>
-        <text class="member-group__subtotal text-primary">¥{{group.subtotalYuan}}</text>
       </view>
       <view class="member-group__items">
         <view class="order-item flex-row flex-between" wx:for="{{group.items}}" wx:key="dishId">

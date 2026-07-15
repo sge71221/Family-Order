@@ -1,18 +1,27 @@
 <!-- ingredient-item.wxml -->
-<view class="ingredient-item flex-row flex-between">
+<view class="ingredient-item flex-row flex-between {{usedUp ? 'ingredient-item--used-up' : ''}}">
   <view class="ingredient-item__check" wx:if="{{showCheckbox}}" bindtap="onCheckboxTap">
     <text class="check-icon">{{isChecked ? '✓' : '○'}}</text>
   </view>
   <view class="ingredient-item__info flex-1">
-    <text class="ingredient-item__name text-ellipsis">{{ingredient.name}}</text>
+    <view class="ingredient-item__name-row flex-row">
+      <text class="ingredient-item__name text-ellipsis">{{ingredient.name}}</text>
+      <text class="used-up-tag" wx:if="{{usedUp}}">已用完</text>
+    </view>
     <view class="ingredient-item__meta flex-row">
       <text class="ingredient-item__unit" wx:if="{{ingredient.unit}}">{{ingredient.unit}}</text>
       <text class="ingredient-item__price" wx:if="{{showPrice}}">¥{{priceYuan}}/{{ingredient.unit || '份'}}</text>
-      <text class="ingredient-item__stock" wx:if="{{showStock}}">库存: {{stockText}}</text>
+      <text class="ingredient-item__stock" wx:if="{{showStock && !usedUp}}">库存: {{stockText}}</text>
+      <text class="ingredient-item__stock text-muted" wx:elif="{{showStock && usedUp}}">库存: 0</text>
     </view>
     <text class="ingredient-item__expiry text-error" wx:if="{{showExpiry && expiryText}}">{{expiryText}}</text>
   </view>
-  <view class="ingredient-item__action" wx:if="{{editable}}" bindtap="onEditTap">
-    <text class="action-text">编辑</text>
+  <view class="ingredient-item__actions flex-row">
+    <view class="ingredient-item__action used-up-btn" wx:if="{{!usedUp && editable}}" bindtap="onUsedUpTap">
+      <text class="action-text--danger">已用完</text>
+    </view>
+    <view class="ingredient-item__action" wx:if="{{editable}}" bindtap="onEditTap">
+      <text class="action-text">编辑</text>
+    </view>
   </view>
 </view>

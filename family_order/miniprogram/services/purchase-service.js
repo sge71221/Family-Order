@@ -1,6 +1,6 @@
 /**
  * purchase-service.js — 采购服务
- * 采购清单生成、勾选、导出、分享
+ * 采购清单生成、勾选、导出、分享、采购记录管理
  */
 const { CloudAdapter } = require('./cloud-adapter');
 const { DB_COLLECTIONS, CLOUD_FUNCTIONS } = require('../utils/constants');
@@ -178,4 +178,114 @@ class PurchaseService {
   }
 }
 
-module.exports = { PurchaseService };
+/**
+ * PurchaseRecordService — 采购记录服务
+ */
+class PurchaseRecordService {
+  constructor() {
+    this.adapter = new CloudAdapter();
+  }
+
+  /**
+   * 添加采购记录
+   */
+  async addRecord(data) {
+    try {
+      const app = getApp();
+      const familyId = app.globalData.familyId;
+      const memberId = app.globalData.memberId;
+      const { yuanToFen } = require('../utils/money');
+
+      const qty = parseFloat(data.quantity) || 0;
+      const price = parseFloat(data.unitPrice) || 0;
+
+      const record = {
+        familyId,
+        date: data.date,
+        name: data.name.trim(),
+        quantity: qty,
+        unit: data.unit || 'piece',
+        unitPrice: yuanToFen(price),
+        totalCost: yuanToFen(qty * price),
+        category: data.category || 'other',
+        remark: data.remark || '',
+        createdBy: memberId || '',
+        createdAt: new Date(),
+      };
+
+      const id = await this.adapter.add(DB_COLLECTIONS.PURCHASE_RECORD, record);
+      return id;
+    } catch (err) {
+      console.error('[PurchaseRecordService] addRecord失败:', err);
+      throw err;
+    }
+  }
+
+  /**
+   * 获取指定月份的采购记录
+   * @param {string} month - YYYY-MM
+   * @returns {Promise<Array>}
+   */
+  async getRecordsByMonth(month) {
+    try {
+      const app = getApp();
+      const familyId = app.globalData.familyId;
+      if (!familyId) return [];
+
+      const monthStart = `${month}-01`;
+      const monthEnd = `${month}-31`;
+
+      const cmd = this.adapter.getCmd();
+      const records = await this.adapter.query(DB_COLLECTIONS.PURCHASE_RECORD, {
+        familyId,
+        date: cmd.gte(monthStart).and(cmd.lte(monthEnd)),
+      }, {
+        orderBy: [{ field: 'date', direction: 'desc' }, { field: 'createdAt', direction: 'desc' }],
+      });
+
+      const { fenToYuan } = require('../utils/money');
+      return records.map((r) => ({
+        ...r,
+        totalCostYuan: fenToYuan(r.totalCost || 0),
+        unitPriceYuan: fenToYuan(r.unitPrice || 0),
+      }));
+    } catch (err) {
+      console.error('[PurchaseRecordService] getRecordsByMonth失败:', err);
+      return [];
+    }
+  }
+
+  /**
+   * 获取月度统计汇总
+   */
+  async getMonthSummary(records) {
+    if (!records || records.length === 0) {
+      return { monthlyTotal: '0.00', weeklyTotal: '0.00', recordCount: 0 };
+    }
+
+    const totalFen = records.reduce((sum, r) => sum + (r.totalCost || 0), 0);
+    const { fenToYuan } = require('../utils/money');
+
+    // 本周范围
+    const now = new Date();
+    const dayOfWeek = now.getDay();
+    const weekStart = new Date(now);
+    weekStart.setDate(now.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+    const weekStartStr = weekStart.toISOString().substring(0, 10);
+
+    let weeklyFen = 0;
+    records.forEach((r) => {
+      if (r.date >= weekStartStr) {
+        weeklyFen += (r.totalCost || 0);
+      }
+    });
+
+    return {
+      monthlyTotal: fenToYuan(totalFen),
+      weeklyTotal: fenToYuan(weeklyFen),
+      recordCount: records.length,
+    };
+  }
+}
+
+module.exports = { PurchaseService, PurchaseRecordService };

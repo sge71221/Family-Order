@@ -1,8 +1,9 @@
 <!-- dish-card.wxml -->
-<view class="dish-card {{compact ? 'dish-card--compact' : ''}}" bindtap="onCardTap">
+<view class="dish-card {{compact ? 'dish-card--compact' : ''}} {{noStock ? 'dish-card--no-stock' : ''}}" bindtap="onCardTap">
   <!-- 菜品图片 -->
   <view class="dish-card__image-wrap" wx:if="{{!compact}}">
     <image class="dish-card__image" src="{{dish.images[0] || '/assets/icons/dish-placeholder.png'}}" mode="aspectFill"></image>
+    <view class="dish-card__stock-badge" wx:if="{{noStock}}">食材不足</view>
   </view>
 
   <!-- 菜品信息 -->
@@ -14,6 +15,16 @@
       <view class="tag-base tag--dish" wx:for="{{dish.tags}}" wx:for-item="tag" wx:key="*this">
         {{tag}}
       </view>
+    </view>
+
+    <!-- 食材不足提示 -->
+    <view class="dish-card__stock-warning" wx:if="{{noStock}}">
+      <text>食材不足: {{stockMissingText}}</text>
+    </view>
+
+    <!-- 未添加食材提示 -->
+    <view class="dish-card__no-ingredients" wx:if="{{noIngredients}}">
+      <text>未添加食材，库存检测不可用</text>
     </view>
 
     <!-- 忌口冲突提示 -->
@@ -40,7 +51,7 @@
   </view>
 
   <!-- 加入购物车按钮 -->
-  <view class="dish-card__add" catchtap="onAddTap" wx:if="{{showAdd}}">
-    <text class="add-icon">+</text>
+  <view class="dish-card__add {{noStock ? 'dish-card__add--disabled' : ''}}" catchtap="onAddTap" wx:if="{{showAdd}}">
+    <text class="add-icon">{{noStock ? '!' : '+'}}</text>
   </view>
 </view>

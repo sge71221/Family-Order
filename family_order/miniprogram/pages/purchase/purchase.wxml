@@ -1,36 +1,67 @@
 <!-- purchase.wxml -->
 <view class="purchase-page page-container">
+  <!-- 页面标题 + 月份选择 -->
+  <view class="purchase-header flex-row flex-between">
+    <view class="purchase-title">
+      <text class="purchase-title__icon">🧾</text>
+      <text class="purchase-title__text">买菜记录</text>
+    </view>
+    <picker mode="date" fields="month" value="{{currentMonth}}" bindchange="onMonthChange">
+      <view class="purchase-header__month flex-row">
+        <text>{{currentMonth}}</text>
+        <text class="purchase-header__arrow">▼</text>
+      </view>
+    </picker>
+  </view>
+
   <skeleton type="list" count="{{5}}" wx:if="{{loading}}"></skeleton>
 
-  <view wx:if="{{!loading && hasOrder}}">
-    <!-- 概览 -->
-    <view class="purchase-header card-surface">
-      <text class="purchase-header__title">采购清单</text>
-      <text class="purchase-header__progress">已勾选 {{checkedCount}}/{{totalCount}}</text>
-      <text class="purchase-header__cost text-primary">预估 ¥{{totalEstimatedCostYuan}}</text>
-    </view>
-
-    <!-- 按分类展示 -->
-    <view class="purchase-category" wx:for="{{categorizedList}}" wx:for-index="catName" wx:key="catName">
-      <text class="purchase-category__title">{{catName}}</text>
-      <view class="purchase-item flex-row" wx:for="{{item}}" wx:for-item="item" wx:key="ingredientId"
-            data-index="{{item._originalIndex}}" bindtap="onItemCheck">
-        <text class="check-icon">{{item.isChecked ? '✓' : '○'}}</text>
-        <view class="purchase-item__info flex-1">
-          <text class="purchase-item__name">{{item.name}}</text>
-          <text class="purchase-item__qty text-muted">{{item.purchaseQtyStr}}</text>
-        </view>
-        <text class="purchase-item__cost" wx:if="{{item.estimatedCostYuan}}">¥{{item.estimatedCostYuan}}</text>
+  <view wx:if="{{!loading}}">
+    <!-- 概览卡片 -->
+    <view class="purchase-summary flex-row flex-between">
+      <view class="summary-card summary-card--orange">
+        <text class="summary-card__value">¥{{monthlyTotal}}</text>
+        <text class="summary-card__label">本月支出</text>
+      </view>
+      <view class="summary-card summary-card--green">
+        <text class="summary-card__value">¥{{weeklyTotal}}</text>
+        <text class="summary-card__label">本周支出</text>
+      </view>
+      <view class="summary-card summary-card--orange">
+        <text class="summary-card__value">{{recordCount}}</text>
+        <text class="summary-card__label">记录数</text>
       </view>
     </view>
 
+    <!-- 按日期分组展示 -->
+    <view class="daily-group" wx:for="{{dailyGroups}}" wx:key="date">
+      <view class="daily-group__header flex-row flex-between">
+        <text class="daily-group__date">{{item.date}}</text>
+        <text class="daily-group__total">¥{{item.totalYuan}}</text>
+      </view>
+      <view class="daily-group__list card-surface">
+        <view class="record-item flex-row flex-between" wx:for="{{item.records}}" wx:for-item="record" wx:key="_id">
+          <view class="record-item__left flex-row">
+            <view class="record-item__dot" style="background-color: {{record.dotColor}};"></view>
+            <view class="record-item__info">
+              <text class="record-item__name">{{record.name}}</text>
+              <text class="record-item__spec text-muted">{{record.quantity}}{{record.unit}} × ¥{{record.unitPriceYuan}}</text>
+            </view>
+          </view>
+          <text class="record-item__cost">¥{{record.totalCostYuan}}</text>
+        </view>
+      </view>
+    </view>
+
+    <empty-state title="暂无采购记录" description="点击下方按钮添加采购记录"
+                 wx:if="{{dailyGroups.length === 0}}"></empty-state>
+
     <!-- 操作栏 -->
-    <view class="purchase-actions flex-row">
-      <button class="btn-outline" bindtap="onCopyText">复制清单</button>
+    <view class="purchase-actions">
+      <button class="btn-primary btn-add" bindtap="onAddRecord">
+        <text>➕ 添加采购记录</text>
+      </button>
       <button class="btn-text" bindtap="onGoInventory">管理食材库</button>
     </view>
   </view>
-
-  <empty-state title="暂无采购需求" description="今日暂无点餐订单"
-               wx:if="{{!loading && !hasOrder}}"></empty-state>
 </view>

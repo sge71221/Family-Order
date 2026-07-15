@@ -216,10 +216,6 @@ class OrderService {
    */
   async getTodayOrder() {
     try {
-      // 缓存优先
-      const cached = this.cache.getTodayOrder();
-      if (cached) return cached;
-
       const app = getApp();
       const familyId = app.globalData.familyId;
       const today = getToday();
@@ -233,10 +229,12 @@ class OrderService {
 
       if (orders.length === 0) return null;
 
-      // 取最新订单或合并当日所有订单
-      const latestOrder = orders[0];
-      this.cache.setTodayOrder(latestOrder);
-      return latestOrder;
+      // 优先返回非 done 状态的订单（ordering / cooking），让用户看到新提交的订单
+      const activeOrder = orders.find((o) => o.status !== ORDER_STATUS.DONE);
+      if (activeOrder) return activeOrder;
+
+      // 否则返回最新的已完成订单
+      return orders[0];
     } catch (err) {
       console.error('[OrderService] getTodayOrder失败:', err);
       return this.cache.getTodayOrder();

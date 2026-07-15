@@ -6,7 +6,6 @@
       <view class="cart-item__info flex-1">
         <text class="cart-item__name text-ellipsis">{{item.dishName}}</text>
         <text class="cart-item__notes text-muted" wx:if="{{item.notes}}">{{item.notes}}</text>
-        <text class="cart-item__price text-primary">¥{{item.totalPriceYuan || ''}}</text>
       </view>
       <view class="cart-item__controls">
         <quantity-stepper value="{{item.quantity}}" min="1" max="10"
@@ -23,7 +22,6 @@
   <view class="cart-footer bottom-bar flex-row flex-between" wx:if="{{cartItems.length > 0}}">
     <view class="cart-footer__info">
       <text class="cart-footer__label">共{{itemCount}}道菜</text>
-      <text class="cart-footer__total">¥{{totalCostYuan}}</text>
     </view>
     <view class="cart-footer__actions flex-row">
       <text class="cart-footer__clear text-muted" bindtap="onClearCart">清空</text>

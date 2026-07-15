@@ -37,13 +37,20 @@ Page({
 
       // 格式化日趋势
       const trendData = dailyTrend.map((d) => ({
-        ...d,
+        label: d.date.substring(5),
+        value: d.costFen,
         dateFriendly: formatFriendlyDate(d.date),
         costYuan: fenToYuan(d.costFen || 0),
       }));
 
+      // 最受欢迎菜品
+      const mostPopular = topDishes.length > 0 ? topDishes[0].dishName : '暂无';
+
       this.setData({
-        summary,
+        summary: {
+          ...summary,
+          mostPopularDish: mostPopular,
+        },
         dailyTrend: trendData,
         topDishes: topDishes.map((d) => ({
           ...d,

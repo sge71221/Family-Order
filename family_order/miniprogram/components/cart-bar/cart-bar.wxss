@@ -34,20 +34,9 @@
   font-size: 24px;
 }
 
-.cart-bar__cost {
-  display: flex;
-  align-items: center;
-}
-
-.cart-bar__cost-label {
-  font-size: var(--font-size-caption);
+.cart-bar__count {
+  font-size: var(--font-size-body);
   color: var(--color-on-surface-muted);
-}
-
-.cart-bar__cost-value {
-  font-size: var(--font-size-number);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
 }
 
 .cart-bar__btn {

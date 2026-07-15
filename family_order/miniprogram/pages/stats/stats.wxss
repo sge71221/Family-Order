@@ -6,34 +6,68 @@
 }
 
 .stats-header {
-  padding: var(--spacing-xs) var(--spacing-sm);
-  background-color: var(--color-surface);
-  border-radius: var(--radius-card);
   margin-bottom: var(--spacing-sm);
+  align-items: center;
 }
 
-.stats-header__month {
-  font-size: var(--font-size-card-title);
-  color: var(--color-on-surface);
+.stats-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.stats-summary {
-  margin-bottom: var(--spacing-sm);
+.stats-title__icon {
+  font-size: 20px;
 }
 
-.summary-grid {
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm) 0;
-}
-
-.summary-item__value {
-  font-size: var(--font-size-number);
+.stats-title__text {
+  font-size: 20px;
   font-weight: var(--font-weight-bold);
   color: var(--color-on-surface);
 }
 
-.summary-item__label {
-  font-size: var(--font-size-caption);
+.stats-header__month {
+  font-size: var(--font-size-body);
+  color: var(--color-on-surface);
+  background-color: var(--color-surface);
+  border-radius: 20px;
+  padding: 6px 14px;
+  gap: 4px;
+  box-shadow: var(--shadow-card);
+}
+
+.stats-header__arrow {
+  font-size: 10px;
+  color: var(--color-on-surface-muted);
+}
+
+.stats-summary {
+  gap: 12px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.summary-card {
+  flex: 1;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+  padding: 16px 8px;
+  text-align: center;
+  min-width: 0;
+  box-shadow: var(--shadow-card);
+}
+
+.summary-card__value {
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  display: block;
+  margin-bottom: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.summary-card__label {
+  font-size: 12px;
   color: var(--color-on-surface-muted);
 }
 
@@ -41,35 +75,72 @@
   margin-bottom: var(--spacing-sm);
 }
 
+.stats-trend .section-title {
+  margin-bottom: 12px;
+}
+
+.stats-ranking .section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.section-title__icon {
+  font-size: 16px;
+}
+
+.ranking-list {
+  padding: 8px 16px;
+}
+
 .ranking-item {
-  padding: var(--spacing-xs) 0;
+  padding: 12px 0;
   border-bottom: 1rpx solid var(--color-divider);
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: 12px;
+}
+
+.ranking-item:last-child {
+  border-bottom: none;
 }
 
 .ranking-item__rank {
   width: 24px;
   height: 24px;
   border-radius: 12px;
-  background-color: var(--color-primary);
-  color: #FFFFFF;
-  font-size: var(--font-size-caption);
+  background-color: var(--color-surface-alt);
+  color: var(--color-on-surface-muted);
+  font-size: 12px;
   text-align: center;
   line-height: 24px;
   flex-shrink: 0;
 }
 
+.ranking-item__rank--top {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
 .ranking-item__name {
   flex: 1;
   font-size: var(--font-size-body);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ranking-item__count {
-  font-size: var(--font-size-caption);
+  font-size: 14px;
+  color: var(--color-primary);
+  flex-shrink: 0;
+  font-weight: var(--font-weight-medium);
 }
 
-.ranking-item__cost {
-  font-size: var(--font-size-body);
-  font-weight: var(--font-weight-medium);
+.stats-trend .bar-chart {
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
 }
