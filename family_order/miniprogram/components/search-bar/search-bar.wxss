@@ -59,7 +59,7 @@
   background-color: var(--color-surface);
   border-radius: var(--radius-card);
   padding: var(--spacing-sm);
-  margin-top: var(--spacing-xs);
+  margin-top: 16rpx;
 }
 
 .search-history__header {
@@ -75,14 +75,16 @@
 .search-history__clear {
   font-size: var(--font-size-caption);
   color: var(--color-on-surface-muted);
+  padding: 8rpx;
+  margin: -8rpx;
 }
 
 .search-history__list {
-  gap: 8rpx;
+  gap: 12rpx;
 }
 
 .search-history__item {
-  padding: 4rpx 12rpx;
+  padding: 8rpx 20rpx;
   background-color: var(--color-surface-alt);
   border-radius: var(--radius-tag);
   font-size: var(--font-size-caption);

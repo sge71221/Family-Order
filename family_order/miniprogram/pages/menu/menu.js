@@ -39,9 +39,21 @@ Page({
   },
 
   onShow() {
+    this._loadSearchHistory();
     this._loadDishes();
     this._checkNetwork();
     this._refreshCart();
+  },
+
+  /** 读取搜索历史 */
+  _loadSearchHistory() {
+    try {
+      const app = getApp();
+      this.setData({ searchHistory: app.cache.getSearchHistory() });
+    } catch (err) {
+      console.error('[Menu] 读取搜索历史失败:', err);
+      this.setData({ searchHistory: [] });
+    }
   },
 
   onHide() {
@@ -120,6 +132,7 @@ Page({
     try {
       const results = await this._dishService.searchDishes(keyword);
       this.setData({ filteredDishes: results });
+      this._loadSearchHistory();
     } catch (err) {
       showError(err);
     }

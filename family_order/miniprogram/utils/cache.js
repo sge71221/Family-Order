@@ -2,7 +2,7 @@
  * cache.js — 缓存管理器
  * 统一管理 wx.setStorageSync / wx.getStorageSync，支持过期策略
  */
-const { CACHE_EXPIRY, CACHE_KEYS } = require('./constants');
+const { CACHE_EXPIRY, CACHE_KEYS, SEARCH_HISTORY_MAX } = require('./constants');
 const { getToday, toTimestamp } = require('./date');
 
 class CacheManager {
@@ -169,7 +169,7 @@ class CacheManager {
    */
   getSearchHistory() {
     const history = this.get(CACHE_KEYS.SEARCH_HISTORY);
-    return history || [];
+    return Array.isArray(history) ? history : [];
   }
 
   /**
@@ -177,14 +177,14 @@ class CacheManager {
    * @param {string} keyword
    */
   addSearchHistory(keyword) {
-    if (!keyword || keyword.trim() === '') return;
+    if (typeof keyword !== 'string' || keyword.trim() === '') return;
     const history = this.getSearchHistory();
     // 去重：移除已有相同关键词
     const filtered = history.filter((h) => h !== keyword.trim());
     // 新关键词放最前面
     filtered.unshift(keyword.trim());
-    // 最多保留10条
-    if (filtered.length > 10) filtered.splice(10);
+    // 最多保留 SEARCH_HISTORY_MAX 条
+    if (filtered.length > SEARCH_HISTORY_MAX) filtered.splice(SEARCH_HISTORY_MAX);
     this.set(CACHE_KEYS.SEARCH_HISTORY, filtered, CACHE_EXPIRY.SEARCH_HISTORY);
   }
 

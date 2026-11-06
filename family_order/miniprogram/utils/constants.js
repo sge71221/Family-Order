@@ -121,7 +121,7 @@ const MONEY_UNIT_YUAN = 'yuan';
 const PAGE_SIZE = 20;
 
 /** 搜索历史最大条数 */
-const SEARCH_HISTORY_MAX = 10;
+const SEARCH_HISTORY_MAX = 5;
 
 module.exports = {
   ORDER_STATUS,
