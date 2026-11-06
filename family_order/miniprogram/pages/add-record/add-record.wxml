@@ -1,0 +1,80 @@
+<!-- add-record.wxml -->
+<view class="add-record-page page-container">
+  <!-- 顶部 -->
+  <view class="add-record-header flex-row flex-between">
+    <text class="header-title">添加采购记录</text>
+    <text class="header-back" bindtap="onCancel">←</text>
+  </view>
+
+  <!-- 购买日期 -->
+  <view class="form-row flex-row flex-between">
+    <view class="form-row__label">
+      <text>📅</text>
+      <text>购买日期</text>
+    </view>
+    <picker mode="date" value="{{date}}" bindchange="onDateChange">
+      <view class="form-row__value">{{date}} <text class="form-row__arrow">›</text></view>
+    </picker>
+  </view>
+
+  <!-- 食材名称 -->
+  <view class="form-group">
+    <text class="form-label">食材名称 <text class="required">*</text></text>
+    <input class="form-input" placeholder="例：五花肉、鲈鱼、番茄..." value="{{name}}" bindinput="onNameInput" />
+  </view>
+
+  <!-- 数量 + 单位 + 单价 -->
+  <view class="form-row-double flex-row">
+    <view class="form-group flex-1">
+      <text class="form-label">数量 <text class="required">*</text></text>
+      <input class="form-input" placeholder="500" type="digit" value="{{quantity}}" bindinput="onQuantityInput" />
+    </view>
+    <view class="form-group" style="flex: 0.6;">
+      <text class="form-label">单位</text>
+      <picker mode="selector" range="{{commonUnits}}" range-key="name" value="{{uniPickerIndex}}" bindchange="onUnitChange">
+        <view class="form-input form-input--picker flex-row flex-between">
+          <text>{{commonUnits[uniPickerIndex].name}}</text>
+          <text class="form-row__arrow">›</text>
+        </view>
+      </picker>
+    </view>
+    <view class="form-group flex-1">
+      <text class="form-label">单价（元）<text class="required">*</text></text>
+      <input class="form-input" placeholder="18.5" type="digit" value="{{unitPrice}}" bindinput="onUnitPriceInput" />
+    </view>
+  </view>
+
+  <!-- 分类 -->
+  <view class="form-group">
+    <text class="form-label">分类（可选）</text>
+    <view class="category-list flex-row">
+      <view class="category-tag {{category === item.value ? 'category-tag--active' : ''}}"
+            wx:for="{{categories}}" wx:key="value"
+            data-value="{{item.value}}" bindtap="onCategorySelect"
+            style="--cat-color: {{item.color}};">
+        <text class="category-dot" style="background-color: {{item.color}};"></text>
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 临时小计 -->
+  <view class="temp-total">
+    <text>🧮 临时小计</text>
+    <text class="temp-total__amount">¥{{tempTotal}}</text>
+  </view>
+
+  <!-- 备注 -->
+  <view class="form-group">
+    <text class="form-label">备注（可选）</text>
+    <textarea class="form-textarea" placeholder="如：当季采购、有机市场优选..." value="{{remark}}" bindinput="onRemarkInput" />
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="form-actions flex-row">
+    <text class="btn-cancel" bindtap="onCancel">取消</text>
+    <button class="btn-save {{canSave ? '' : 'disabled'}}" bindtap="onSave">
+      <text>✓ 保存记录</text>
+    </button>
+  </view>
+</view>
